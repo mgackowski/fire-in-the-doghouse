@@ -1,174 +1,75 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
+/**
+ * Provides random words from a list stored in a JSON file. Can insert them into
+ * sentence templates present in Card data.
+ */
 public class DialogueGenerator
 {
-    List<string> nouns = new List<string>{
-        "face",
-        "hair",
-        "nose",
-        "shoes",
-        "house",
-        "car",
-        "bed",
-        "wife",
-        "husband",
-        "clothes",
-        "skin",
-        "career",
-        "son",
-        "daughter",
-        "baby",
-        "kids",
-        "family",
-        "dad",
-        "mum",
-        "style",
-        "taste",
-        "face",
-        "hair",
-        "nose",
-        "Shoes",
-        "house",
-        "car",
-        "bed",
-        "wife",
-        "husband",
-        "clothes",
-        "skin",
-        "career",
-        "son",
-        "daughter",
-        "baby",
-        "kids",
-        "dad",
-        "mum",
-        "style",
-        "taste",
-        "jokes",
-        "roasts",
-        "roast battles",
-        "rizz",
-        "swag",
-        "friends",
-        "taste in men",
-        "taste in women",
-        "bank account",
-        "flat",
-        "laugh",
-        "voice",
-        "aeroplane food",
-        "health",
-        "audience",
-        "shows",
-        "tours",
-        "crowd",
-        "girlfriend",
-        "boyfriend",
-        "youtube views",
-        "blood",
-        "game",
-        "teeth",
-        "mouth",
-        "relationship",
-        "hair colour",
-        "producer",
-        "microphone",
-        "love of their life",
-        "make-up",
-        "roots",
-        "facial hair",
-        "jewlery",
-    };
-    List<string> adjectives = new List<string>{
-        "ugly",
-        "nasty",
-        "ranked",
-        "disgusting",
-        "stupid",
-        "slimey",
-        "motherless",
-        "motherless",
-        "confusing",
-        "infuriating",
-        "cruel",
-        "shameful",
-        "disappointing",
-        "pathetic",
-        "poor",
-        "rich",
-        "vain",
-        "pompous",
-        "grumpy",
-        "jealous",
-        "petty",
-        "lazy",
-        "fucked",
-        "gullible",
-        "ignorant",
-        "dramatic",
-        "obnoxious",
-        "careless",
-        "clumsy",
-        "silly",
-        "dirty",
-        "flaccid",
-        "useless",
-        "problematic",
-        "bad",
-        "funny",
-        "broken",
-        "monstrous",
-        "repulsive",
-        "absurd",
-        "atrocious",
-        "awful",
-        "uncomfortable",
-        "bald",
-        "cheap",
-        "contagious",
-        "daft",
-        "disliked",
-        "delusional",
-        "grotesque",
-        "helpless",
-        "sick",
-        "lame",
-        "redundant",
-        "toxic",
-        "tasteless",
-        "flat",
-        "flavourless",
-        "deceased",
-        "upsetting",
-        "divorced",
-        "bare",
-        "offensive",
-        "bad",
-        "b***h",
-        "*******",
-        "*************",
-        "unfunny",
-        "uninteresting",
-        "unlikeable",
-        "unloveable",
-        "unhappy",
-    };
+    List<string> nouns;
+    List<string> adjectives;
+    System.Random rng;
 
+    /* 
+     * Contruct using TextAssets references defined in Inspector. 
+    */
+    public DialogueGenerator(TextAsset nounsAsset, TextAsset adjectivesAsset)
+    {
+        rng = new System.Random();
+        try
+        {
+            adjectives = JsonUtility.FromJson<List<string>>(adjectivesAsset.text);
+            nouns = JsonUtility.FromJson<List<string>>(adjectivesAsset.text);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Can't create DialogueGenerator due to following error: \n"
+                + e.Message);
+            nouns = new List<string> {"NO DATA"};
+            adjectives = new List<string> {"NO DATA"};
+        }
+ 
+    }
+
+    /* 
+     * Contruct using paths to word lists in the Assets/Resources folder.
+     * Uses defaults "nouns.json" and "adjectives.json".
+     */
+    public DialogueGenerator(
+    string nounsTextAssetPath = "nouns.json",
+    string adjectivesTextAssetPath = "adjectives.json") : this
+    (
+        Resources.Load<TextAsset>(nounsTextAssetPath),
+        Resources.Load<TextAsset>(adjectivesTextAssetPath)
+    )
+    {
+    }
+
+    /*
+     * Returns a random noun from the list.
+     */
     public string GetRandomNoun()
     {
-        Random rng = new Random();
         int randomNumber = rng.Next(nouns.Count);
         return nouns[randomNumber];
     }
 
+    /*
+     * Returns a random adjective from the list.
+     */
     public string GetRandomAdjective()
     {
-        Random rng = new Random();
         int randomNumber = rng.Next(adjectives.Count);
         return adjectives[randomNumber];
     }
 
+    /*
+     * Replaces markers in the string 'template': (n) with 'noun', (a) with
+     * 'adjective', (c) with 'opponentName'; then returns resulting string.
+     * Used for creating dialogue from templates stored in Card data.
+     */
     public string GetSentence(string template, string noun, string adjective, string opponentName)
     {
         return template.Replace("(n)", noun).Replace("(a)", adjective).Replace("(c)", opponentName);
