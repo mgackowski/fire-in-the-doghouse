@@ -11,26 +11,20 @@ using System.Collections.Generic;
  * Events implement IEventArgs and are defined, along with compatible argument wrapping
  * objects, inside GameplayEvents.cs.
  */
-public static class GameplayEventBus
+public class GameplayEventBus : IEventBus
 {
+    static GameplayEventBus instance;
     static Dictionary<Type, GameplayEvent<IEventArgs>> events = new Dictionary<Type, GameplayEvent<IEventArgs>>();
 
-    static T GetEvent<T, U>()
-        where T : GameplayEvent<U>, new()
-        where U : IEventArgs
+    GameplayEventBus() { }
+
+    public static GameplayEventBus Instance()
     {
-        if (events.ContainsKey(typeof(T)))
+        if (instance == null)
         {
-            return events[typeof(T)] as T;
+            instance = new GameplayEventBus();
         }
-        else
-        {
-            // no need to populate dictionary with all possible events at start,
-            // they are created on demand at request time (max 1 of each)
-            T newEvent = new T();
-            events.Add(typeof(T), newEvent as GameplayEvent<IEventArgs>);
-            return newEvent;
-        }
+        return instance;
     }
 
     /*
@@ -63,6 +57,24 @@ public static class GameplayEventBus
         where U : IEventArgs
     {
         GetEvent<T, U>()?.Publish(args);
+    }
+
+    static T GetEvent<T, U>()
+    where T : GameplayEvent<U>, new()
+    where U : IEventArgs
+    {
+        if (events.ContainsKey(typeof(T)))
+        {
+            return events[typeof(T)] as T;
+        }
+        else
+        {
+            // no need to populate dictionary with all possible events at start,
+            // they are created on demand at request time (max 1 of each)
+            T newEvent = new T();
+            events.Add(typeof(T), newEvent as GameplayEvent<IEventArgs>);
+            return newEvent;
+        }
     }
 
 }

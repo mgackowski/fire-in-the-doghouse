@@ -1,4 +1,8 @@
-﻿public enum MessageType
+﻿/**
+ * TODO: Deprecate.
+ * Pass messages in appropriate events in the GameplayEventBus.
+ */
+public enum MessageType
 {
     SYSTEM,
     DIALOGUE_PLAYER,

@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
+/**
+ * TODO: Deprecate.
+ * Pass messages in appropriate events in the GameplayEventBus.
+ */
 public static class MessageSystem
 {
     public static event Action<Message> messageArrived;
