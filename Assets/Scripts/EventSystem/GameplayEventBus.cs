@@ -31,7 +31,7 @@ public class GameplayEventBus : IEventBus
      * Subscribe to event T which transmits event arguments U.
      * Must provide callback function; called when the event is invoked.
      */
-    public static void Subscribe<T, U>(Action<U> callback)
+    public void Subscribe<T, U>(Action<U> callback)
         where T: GameplayEvent<U>, new()
         where U : IEventArgs
     {
@@ -42,7 +42,7 @@ public class GameplayEventBus : IEventBus
      * Unsubscribe from event T which transmits event arguments U.
      * Must provide callback function; called when the event is invoked.
      */
-    public static void Unsubscribe<T, U>(Action<U> callback)
+    public void Unsubscribe<T, U>(Action<U> callback)
         where T : GameplayEvent<U>, new()
         where U : IEventArgs
     {
@@ -52,7 +52,7 @@ public class GameplayEventBus : IEventBus
     /*
      * Trigger event T, using compatible args U.
      */
-    public static void Publish<T, U>(U args)
+    public void Publish<T, U>(U args)
         where T : GameplayEvent<U>, new()
         where U : IEventArgs
     {

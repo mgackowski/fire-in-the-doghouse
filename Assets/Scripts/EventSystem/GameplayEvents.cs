@@ -2,13 +2,22 @@
  * List of gameplay events that can be raised.
  */
 
-public class ActPlaybackStartedEvent : GameplayEvent<DefaultEventArgs> { }
-public class TurnStartedEvent : GameplayEvent<DefaultEventArgs> { }
-public class CardPlayEvent : GameplayEvent<CardPlayArgs> { }
-public class EffectResolutionEvent : GameplayEvent<DefaultEventArgs> { }
-public class ScoreResolutionEvent : GameplayEvent<ScoreArgs> { }
-public class TurnEndedEvent : GameplayEvent<DefaultEventArgs> { }
-public class ActPlaybackFinishedEvent : GameplayEvent<DefaultEventArgs> { }
+public class ActIntroStartedEvent : GameplayEvent<GameplayStateArgs> { }
+public class ActIntroFinishedEvent : GameplayEvent<GameplayStateArgs> { }
+public class TurnStartAnimationsStartedEvent : GameplayEvent<GameplayStateArgs> { }
+public class TurnStartAnimationsFinishedEvent : GameplayEvent<DefaultEventArgs> { }
+public class CardPlayAnimationsStartedEvent : GameplayEvent<CardPlayArgs> { }
+public class CardPlayAnimationsFinishedEvent : GameplayEvent<DefaultEventArgs> { }
+public class DialogueStartedEvent : GameplayEvent<DialogueArgs> { }
+public class DialogueFinishedEvent : GameplayEvent<DefaultEventArgs> { }
+public class ScoreResolutionStartedEvent : GameplayEvent<DefaultEventArgs> { }
+public class ScoreResolutionFinishedEvent : GameplayEvent<DefaultEventArgs> { }
+public class EffectResolutionStartedEvent : GameplayEvent<DefaultEventArgs> { }
+public class EffectResolutionFinishedEvent : GameplayEvent<DefaultEventArgs> { }
+public class TurnEndingStartedEvent : GameplayEvent<DefaultEventArgs> { }
+public class TurnEndingFinishedEvent : GameplayEvent<DefaultEventArgs> { }
+public class ActEndingStartedEvent : GameplayEvent<DefaultEventArgs> { }
+public class ActEndingFinishedEvent : GameplayEvent<DefaultEventArgs> { }
 
 /**
  * List of event args objects that can be transmitted alongside events.
@@ -16,8 +25,19 @@ public class ActPlaybackFinishedEvent : GameplayEvent<DefaultEventArgs> { }
 
 public class DefaultEventArgs : IEventArgs { }
 
+public class GameplayStateArgs : IEventArgs
+{
+    public GameplayState State { get; set; }
+}
+
 public class CardPlayArgs : IEventArgs {
     public CardPlay CardPlay { get; set; }
+}
+
+public class DialogueArgs : IEventArgs
+{
+    public Comedian Speaker { get; set; }
+    public string DialogueLine { get; set; }
 }
 
 public class ScoreArgs : IEventArgs
