@@ -2,6 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 
+/**
+ * Manages progression of a comedy night.
+ * TODO: Merge with Act, as there is currently only one Act per Night.
+ * TODO: Expose act events in a single object, e.g. here, or use an event bus
+ */
 public class NightManager : MonoBehaviour
 {
     public int maxActs = 3;

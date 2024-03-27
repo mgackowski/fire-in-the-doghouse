@@ -14,7 +14,7 @@ public static class MessageSystem
     public static void Push(string message, MessageType type)
     {
         messageQueue.Enqueue(new Message() {text = message, type = type});
-        // dequeue messages immediately
+        // Implement delay here if necessary.
         messageArrived?.Invoke(messageQueue.Dequeue());
     }
 
