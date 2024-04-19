@@ -9,6 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6757f7b4b9124b94a02050c8dc27673, type: 3}
+  m_Script: {fileID: 11500000, guid: 2f0c4a99a4024554aa2c7eb94345a181, type: 3}
   m_Name: Basic Scoring Rule
   m_EditorClassIdentifier: 

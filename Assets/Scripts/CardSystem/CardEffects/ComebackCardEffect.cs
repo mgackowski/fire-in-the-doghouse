@@ -5,7 +5,7 @@ public class ComebackCardEffect : CardEffect
 {
     public new string Name { get; } = "Comeback after Jab";
 
-    public override void applyEffect(Card invoker, Act context)
+    public override void applyEffect(CardPlay invoker, GameplayState context)
     {
         if (context.DiscardPile.Count == 0)
         {
@@ -16,17 +16,16 @@ public class ComebackCardEffect : CardEffect
         {
             if (effect.GetType() == typeof(DebuffOpponentCardEffect))
             {
-                context.CurrentPlayer.ResetBonus();
+                invoker.player.ResetBonus();
                 MessageSystem.Push("Oof! That's gotta hurt.", MessageType.SYSTEM);
 
-                // TODO: Act should provide a convenient method for this
-                if (context.CurrentPlayer == context.HumanPlayer)
+                if (invoker.player == context.HumanComedian)
                 {
-                    context.CpuOpponent.SetBonus(-1);
+                    context.CpuComedian.SetBonus(-1);
                 }
-                else if (context.CurrentPlayer == context.CpuOpponent)
+                else if (invoker.player == context.CpuComedian)
                 {
-                    context.HumanPlayer.SetBonus(-1);
+                    context.HumanComedian.SetBonus(-1);
                 }
                 return;
             }

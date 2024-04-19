@@ -3,8 +3,8 @@
 [CreateAssetMenu(menuName = "ScriptableObjects/ScoringRule/BasicScoringRule")]
 public class BasicScoringRule : CardScoringRule
 {
-    public override int GetBaseScore(Card invoker, Act context)
+    public override int GetBaseScore(CardPlay invoker, GameplayState context)
     {
-        return invoker.baseScore;
+        return invoker.card.baseScore;
     }
 }

@@ -10,10 +10,10 @@ public class CardPlayAnimationsStartedEvent : GameplayEvent<CardPlayArgs> { }
 public class CardPlayAnimationsFinishedEvent : GameplayEvent<DefaultEventArgs> { }
 public class DialogueStartedEvent : GameplayEvent<DialogueArgs> { }
 public class DialogueFinishedEvent : GameplayEvent<DefaultEventArgs> { }
-public class ScoreResolutionStartedEvent : GameplayEvent<DefaultEventArgs> { }
-public class ScoreResolutionFinishedEvent : GameplayEvent<DefaultEventArgs> { }
-public class EffectResolutionStartedEvent : GameplayEvent<DefaultEventArgs> { }
+public class EffectResolutionStartedEvent : GameplayEvent<CardPlayArgs> { }
 public class EffectResolutionFinishedEvent : GameplayEvent<DefaultEventArgs> { }
+public class ScoreResolutionStartedEvent : GameplayEvent<ScoreArgs> { }
+public class ScoreResolutionFinishedEvent : GameplayEvent<DefaultEventArgs> { }
 public class TurnEndingStartedEvent : GameplayEvent<DefaultEventArgs> { }
 public class TurnEndingFinishedEvent : GameplayEvent<DefaultEventArgs> { }
 public class ActEndingStartedEvent : GameplayEvent<DefaultEventArgs> { }

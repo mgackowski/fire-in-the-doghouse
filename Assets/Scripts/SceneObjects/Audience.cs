@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class Audience : MonoBehaviour
 {
-
+    //TODO: Adapt to new event system
 
     public List<AudioClip> reactionClips;
-    public NightManager manager;
+    //public NightManager manager;
 
     AudioSource audioSource;
 
@@ -22,7 +22,7 @@ public class Audience : MonoBehaviour
 
     public void UpdateActBindings()
     {
-        SubscribeToActEvents();
+        //SubscribeToActEvents();
     }
 
     public void OnScoreResolved(int score)
@@ -32,13 +32,13 @@ public class Audience : MonoBehaviour
         audioSource.Play();
     }
 
-    void SubscribeToActEvents()
+/*    void SubscribeToActEvents()
     {
         if (manager.act == null)
         {
             return;
         }
         manager.act.ScoreResolutionEvent += OnScoreResolved;
-    }
+    }*/
 
 }

@@ -3,20 +3,23 @@
 [CreateAssetMenu(menuName = "ScriptableObjects/ScoringRule/PayoffScoringRule")]
 public class PayoffScoringRule : CardScoringRule
 {
+    [SerializeField] int scoreForMatchingStyle = 5;
+    [SerializeField] int scoreForNonMatchingStyle = 2;
+    [SerializeField] int scoreForMiss = 0;
 
-    public override int GetBaseScore(Card invoker, Act context)
+    public override int GetBaseScore(CardPlay invoker, GameplayState context)
     {
         if (!context.SetupActive)
         {
-            return 0;
+            return scoreForMiss;
         }
-        if (context.SetupType.Equals(invoker.style))
+        if (context.SetupType.Equals(invoker.card.style))
         {
-            return 5;
+            return scoreForMatchingStyle;
         }
         else
         {
-            return 2;
+            return scoreForNonMatchingStyle;
         }
         
     }

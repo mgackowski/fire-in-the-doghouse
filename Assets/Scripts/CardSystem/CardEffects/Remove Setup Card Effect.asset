@@ -9,6 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e86366ad034d42919a156017be7796e, type: 3}
+  m_Script: {fileID: 11500000, guid: aa7a024d3aff51c42b42f3c3c1adb3c7, type: 3}
   m_Name: Remove Setup Card Effect
   m_EditorClassIdentifier: 

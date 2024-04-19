@@ -9,6 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09e94eb7e0e434dc08fc761b3d320c0e, type: 3}
+  m_Script: {fileID: 11500000, guid: b8dc3eeb7b78b6a4e882cb65fc5e7974, type: 3}
   m_Name: Debuff Opponent Card Effect
   m_EditorClassIdentifier: 

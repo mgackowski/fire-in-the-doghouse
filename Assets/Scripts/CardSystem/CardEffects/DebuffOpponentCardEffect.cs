@@ -5,16 +5,16 @@ public class DebuffOpponentCardEffect : CardEffect
 {
     public new string Name { get; } = "Jab Opponent";
 
-    public override void applyEffect(Card invoker, Act context)
+    public override void applyEffect(CardPlay invoker, GameplayState context)
     {
         MessageSystem.Push("That's affected their focus a bit.", MessageType.SYSTEM);
-        if (context.CurrentPlayer == context.HumanPlayer)
+        if (invoker.player == context.HumanComedian)
         {
-            context.CpuOpponent.SetBonus(-1);  //TODO: might interfere with other bonuses
+            context.CpuComedian.SetBonus(-1);  //TODO: might interfere with other bonuses
         }
-        else if (context.CurrentPlayer == context.CpuOpponent)
+        else if (invoker.player == context.CpuComedian)
         {
-            context.HumanPlayer.SetBonus(-1);
+            context.HumanComedian.SetBonus(-1);
         }
     }
 }

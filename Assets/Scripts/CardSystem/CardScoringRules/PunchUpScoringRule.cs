@@ -4,26 +4,29 @@
 public class PunchUpScoringRule : CardScoringRule
 {
 
-    public override int GetBaseScore(Card invoker, Act context)
+    [SerializeField] int scoreIfSuccess = 4;
+    [SerializeField] int scoreIfFailure = 1;
+
+    public override int GetBaseScore(CardPlay invoker, GameplayState context)
     {
-        Comedian currentPlayer = context.CurrentPlayer;
+        Comedian currentPlayer = invoker.player;
         Comedian opponent;
-        if (currentPlayer == context.CpuOpponent)
+        if (currentPlayer == context.CpuComedian)
         {
-            opponent = context.HumanPlayer;
+            opponent = context.HumanComedian;
         }
         else
         {
-            opponent = context.CpuOpponent;
+            opponent = context.CpuComedian;
         }
 
         if (currentPlayer.Score >= opponent.Score)
         {
-            return 1;
+            return scoreIfFailure;
         }
         else
         {
-            return 4;
+            return scoreIfSuccess;
         }
 
     }

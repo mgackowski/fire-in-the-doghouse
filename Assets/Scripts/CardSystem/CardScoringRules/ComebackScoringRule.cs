@@ -4,7 +4,7 @@
 public class ComebackScoringRule : CardScoringRule
 {
 
-    public override int GetBaseScore(Card invoker, Act context)
+    public override int GetBaseScore(CardPlay invoker, GameplayState context)
     {
         if (context.DiscardPile.Count == 0)
         {

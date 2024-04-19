@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 /**
@@ -15,15 +16,14 @@ public class ActCoordinator : MonoBehaviour
         TurnStartAnimationsStarted, TurnStartAnimationsFinished,
         CardPlayAnimationsStarted, CardPlayAnimationsFinished,
         DialogueStarted, DialogueFinished,
-        ScoreResolutionStarted, ScoreResolutionFinished,
         EffectResolutionStarted, EffectResolutionFinished,
+        ScoreResolutionStarted, ScoreResolutionFinished,
         TurnEndingStarted, TurnEndingFinished,
         ActEndingStarted, ActEndingFinished
     }
 
-
-    // TODO: Public Inspector fields here
-
+    [SerializeField]
+    int setupBonus = 1; // Points awarded for successful Setup.
 
     DialogueGenerator dialogueGenerator;
     ActState actState = ActState.ActIntroStarted;
@@ -111,7 +111,7 @@ public class ActCoordinator : MonoBehaviour
     {
         actState = ActState.DialogueStarted;
 
-        int lineNumber = Random.Range(0, currentPlay.card.dialogueLines.Count);
+        int lineNumber = UnityEngine.Random.Range(0, currentPlay.card.dialogueLines.Count);
         string dialogueLine = dialogueGenerator.GetSentence(
             currentPlay.card.dialogueLines[lineNumber],
             state.CurrentNoun, state.CurrentAdjective,
@@ -133,39 +133,48 @@ public class ActCoordinator : MonoBehaviour
         StartScoreResolution();
     }
 
-    /* Calculate the score of this turn's play, display it, play audience reactions etc.
-     */
-    public void StartScoreResolution()
-    {
-        actState = ActState.ScoreResolutionStarted;
-
-            // TODO
-
-        GameplayEventBus.Instance().Publish<ScoreResolutionStartedEvent, DefaultEventArgs>(new DefaultEventArgs());
-    }
-
-    public void OnScoreResolutionFinished(DefaultEventArgs args)
-    {
-        if (actState != ActState.ScoreResolutionStarted) return;
-        actState = ActState.ScoreResolutionFinished;
-        StartEffectResolution();
-    }
-
     /* Apply additional effects caused by the play, e.g. place penalty on opponent.
-     */
+    */
     public void StartEffectResolution()
     {
         actState = ActState.EffectResolutionStarted;
 
-            // TODO
-
-        GameplayEventBus.Instance().Publish<EffectResolutionStartedEvent, DefaultEventArgs>(new DefaultEventArgs());
+        foreach (CardEffect effect in currentPlay.card.effects)
+        {
+            effect.applyEffect(currentPlay, state);
+        }
+        // TODO: Raise for each effect, sequentially, and use more specific args e.g. EffectArgs
+        GameplayEventBus.Instance().Publish<EffectResolutionStartedEvent, CardPlayArgs>(cardPlayArgs);
     }
 
     public void OnEffectResolutionFinished(DefaultEventArgs args)
     {
         if (actState != ActState.EffectResolutionStarted) return;
         actState = ActState.EffectResolutionFinished;
+        StartScoreResolution();
+    }
+
+    /* Calculate the score of this turn's play, display it, play audience reactions etc.
+     */
+    public void StartScoreResolution()
+    {
+        actState = ActState.ScoreResolutionStarted;
+
+        int effectiveScore = CalculateCardScore(currentPlay);
+        currentPlay.effectiveScore = effectiveScore;
+        currentPlay.player.AddToScore(effectiveScore);
+        MessageSystem.Push($"{currentPlay.player.ComedianName} gained {effectiveScore} points.", MessageType.SYSTEM);
+
+        GameplayEventBus.Instance().Publish<ScoreResolutionStartedEvent, ScoreArgs>(new ScoreArgs()
+        {
+            NewScore = effectiveScore
+        }) ;
+    }
+
+    public void OnScoreResolutionFinished(DefaultEventArgs args)
+    {
+        if (actState != ActState.ScoreResolutionStarted) return;
+        actState = ActState.ScoreResolutionFinished;
         StartTurnEnding();
     }
 
@@ -211,7 +220,7 @@ public class ActCoordinator : MonoBehaviour
     private void Awake()
     {
         stateArgs = new GameplayStateArgs() { State = state };
-        cardPlayArgs = new CardPlayArgs() { CardPlay = currentPlay };
+        cardPlayArgs = new CardPlayArgs() { CardPlay = currentPlay };   // TODO: CardPlay is value type and won't update here!
         dialogueGenerator = new DialogueGenerator();
     }
 
@@ -229,6 +238,7 @@ public class ActCoordinator : MonoBehaviour
 
     private void OnDestroy()
     {
+        GameplayEventBus.Instance().Unsubscribe<ActIntroFinishedEvent, GameplayStateArgs>(OnActIntroFinished);
         GameplayEventBus.Instance().Unsubscribe<TurnStartAnimationsFinishedEvent, DefaultEventArgs>(OnTurnStartAnimationsFinished);
         GameplayEventBus.Instance().Unsubscribe<CardPlayAnimationsFinishedEvent, DefaultEventArgs>(OnCardPlayAnimationsFinished);
         GameplayEventBus.Instance().Unsubscribe<DialogueFinishedEvent, DefaultEventArgs>(OnDialogueFinished);
@@ -236,6 +246,19 @@ public class ActCoordinator : MonoBehaviour
         GameplayEventBus.Instance().Unsubscribe<EffectResolutionFinishedEvent, DefaultEventArgs>(OnEffectResolutionFinished);
         GameplayEventBus.Instance().Unsubscribe<TurnEndingFinishedEvent, DefaultEventArgs>(OnTurnFinished);
         GameplayEventBus.Instance().Unsubscribe<ActEndingFinishedEvent, DefaultEventArgs>(OnActEndingFinished);
+    }
+
+    int CalculateCardScore(CardPlay play)
+    {
+        int cardScore = Math.Max(play.card.scoringRule.GetBaseScore(play, state) + play.player.Bonus, 0);
+
+        // Extra points if Setup effect is active for that player.
+        if (state.SetupActive && play.player == state.SetupPlayer)
+        {
+            cardScore += setupBonus;
+            MessageSystem.Push("It's following the Setup.", MessageType.SYSTEM);
+        }
+        return cardScore;
     }
 
 

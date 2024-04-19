@@ -5,9 +5,9 @@ public class ActivateSetupCardEffect : CardEffect
 {
     public new string Name { get; } = "Activate Setup";
 
-    public override void applyEffect(Card invoker, Act context)
+    public override void applyEffect(CardPlay invoker, GameplayState context)
     {
-        context.ActivateSetup(invoker.style, context.CurrentPlayer);
+        context.ActivateSetup(invoker.player, invoker.card.style);
         MessageSystem.Push("A joke is being set up...", MessageType.SYSTEM);
     }
 }

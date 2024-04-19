@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class CameraSwitcher : MonoBehaviour
 {
-    public NightManager manager;
+    //TODO: Adapt to new event system
+    //public NightManager manager;
 
 
     public CinemachineVirtualCamera humanPerformer;
@@ -29,7 +30,7 @@ public class CameraSwitcher : MonoBehaviour
 
     public void UpdateActBinding()
     {
-        SubscribeToActEvents();
+        //SubscribeToActEvents();
     }
 
     public enum CameraType
@@ -86,7 +87,7 @@ public class CameraSwitcher : MonoBehaviour
         }
     }
 
-    void SubscribeToActEvents()
+/*    void SubscribeToActEvents()
     {
         if (manager.act == null)
         {
@@ -95,7 +96,7 @@ public class CameraSwitcher : MonoBehaviour
         manager.act.CardPlayEvent += OnCardPlay;
         manager.act.TurnStartedEvent += OnTurnStarted;
         manager.act.ScoreResolutionEvent += OnScoreResolved;
-    }
+    }*/
 
 
 }
