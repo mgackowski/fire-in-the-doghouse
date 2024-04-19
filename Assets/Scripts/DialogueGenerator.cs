@@ -12,16 +12,22 @@ public class DialogueGenerator
     List<string> adjectives;
     System.Random rng;
 
+    [Serializable]
+    struct WordList
+    {
+        public string[] words;
+    }
+
     /* 
-     * Contruct using TextAssets references defined in Inspector. 
+     * Construct using TextAssets references defined in Inspector. 
     */
     public DialogueGenerator(TextAsset nounsAsset, TextAsset adjectivesAsset)
     {
         rng = new System.Random();
         try
         {
-            adjectives = JsonUtility.FromJson<List<string>>(adjectivesAsset.text);
-            nouns = JsonUtility.FromJson<List<string>>(adjectivesAsset.text);
+            adjectives = new List<string>(JsonUtility.FromJson<WordList>(adjectivesAsset.text).words);
+            nouns = new List<string>(JsonUtility.FromJson<WordList>(nounsAsset.text).words);
         }
         catch (Exception e)
         {
@@ -36,6 +42,7 @@ public class DialogueGenerator
     /* 
      * Contruct using paths to word lists in the Assets/Resources folder.
      * Uses defaults "nouns.json" and "adjectives.json".
+     * TODO: Fix object reference error
      */
     public DialogueGenerator(
     string nounsTextAssetPath = "nouns.json",

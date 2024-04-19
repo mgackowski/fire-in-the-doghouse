@@ -22,18 +22,21 @@ public class ActCoordinator : MonoBehaviour
         ActEndingStarted, ActEndingFinished
     }
 
-    [SerializeField]
-    int setupBonus = 1; // Points awarded for successful Setup.
+    [Header("Dialogue generation")]
+    [SerializeField] TextAsset nounsList;
+    [SerializeField] TextAsset adjectivesList;
+
+    [Header("Scoring")]
+    [SerializeField] int setupBonus = 1; // Points awarded for successful Setup.
 
     DialogueGenerator dialogueGenerator;
     ActState actState = ActState.ActIntroStarted;
+    GameplayState state;
 
     // Cached references to objects used in events
-    GameplayState state;    // TODO: Find a nice way to inject this
     CardPlay currentPlay;
     GameplayStateArgs stateArgs;
     CardPlayArgs cardPlayArgs;
-
 
     /* The start of the act - cards are already selected, now the player observes
      * how the battle resolves across multiple turns.
@@ -217,11 +220,24 @@ public class ActCoordinator : MonoBehaviour
         // TODO: Change game mode accordingly once implemented
     }
 
+    public void SetNewState(GameplayState newState)
+    {
+        Debug.Log("New GameplayState provided to ActCoordinator.");
+        state = newState;
+        stateArgs = new GameplayStateArgs() { State = newState };
+    }
+
     private void Awake()
     {
+        if (state == null)
+        {
+            Debug.LogWarning("ActCoordinator.Awake() called and no GameplayState present; creating an empty state.");
+            state = new GameplayState();
+        }
+
         stateArgs = new GameplayStateArgs() { State = state };
         cardPlayArgs = new CardPlayArgs() { CardPlay = currentPlay };   // TODO: CardPlay is value type and won't update here!
-        dialogueGenerator = new DialogueGenerator();
+        dialogueGenerator = new DialogueGenerator(nounsList, adjectivesList);
     }
 
     private void Start()
