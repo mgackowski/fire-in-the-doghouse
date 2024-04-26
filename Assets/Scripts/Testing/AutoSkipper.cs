@@ -158,7 +158,7 @@ public class AutoSkipper : MonoBehaviour
             StartCoroutine(InvokeDelayedEvent<ActIntroStartedEvent, GameplayStateArgs>(actEndingFinishedEventWait, emptyStateArgs));
     }
 
-    void Start()
+    private void Awake()
     {
         GameplayEventBus.Instance().Subscribe<ActIntroStartedEvent, GameplayStateArgs>(OnActIntroStarted);
         GameplayEventBus.Instance().Subscribe<ActIntroFinishedEvent, GameplayStateArgs>(OnActIntroFinished);
@@ -177,11 +177,14 @@ public class AutoSkipper : MonoBehaviour
         GameplayEventBus.Instance().Subscribe<ActEndingStartedEvent, DefaultEventArgs>(OnActEndingStarted);
         GameplayEventBus.Instance().Subscribe<ActEndingFinishedEvent, DefaultEventArgs>(OnActEndingFinished);
 
+    }
+
+    private void Start()
+    {
         if (autoStart)
         {
             GameplayEventBus.Instance().Publish<ActIntroStartedEvent, GameplayStateArgs>(emptyStateArgs);
         }
-
     }
 
     private void OnDestroy()

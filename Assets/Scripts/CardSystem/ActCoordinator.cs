@@ -239,10 +239,7 @@ public class ActCoordinator : MonoBehaviour
         stateArgs = new GameplayStateArgs() { State = state };
         cardPlayArgs = new CardPlayArgs() { CardPlay = currentPlay };   // TODO: CardPlay is value type and won't update here!
         dialogueGenerator = new DialogueGenerator(nounsList, adjectivesList);
-    }
 
-    private void Start()
-    {
         GameplayEventBus.Instance().Subscribe<ActIntroStartedEvent, GameplayStateArgs>(OnActIntroStarted);
         GameplayEventBus.Instance().Subscribe<ActIntroFinishedEvent, GameplayStateArgs>(OnActIntroFinished);
         GameplayEventBus.Instance().Subscribe<TurnStartAnimationsFinishedEvent, DefaultEventArgs>(OnTurnStartAnimationsFinished);
