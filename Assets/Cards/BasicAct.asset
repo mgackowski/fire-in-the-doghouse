@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 614160a9560224f4fb82f44d5a444cab, type: 3}
+  m_Name: BasicAct
+  m_EditorClassIdentifier: 
+  cardName: Basic Act
+  description: "Grants 2\u2665."
+  graphic: {fileID: 0}
+  baseScore: 2
+  style: 0
+  effects: []
+  scoringRule: {fileID: 11400000, guid: b2abce99d6f10da4188b93e62b13aac2, type: 2}
+  dialogueLines:
+  - 'What''s the deal with (n) '
+  - 'I''d rather be (a) than have to listen to you for another second '
+  - 'How do you still have no (n) '
+  - 'When (c) was little they wanted to be an astronaut, too bad they ended up (a) '
+  - '(c) isn''t actually their original name, at school they were called (a) '
+  - 'Were you born (a) or did you take lessons? '
+  - "(c) suffers from social anxiety and worries that everyone doesn't like them\u2026
+    I would be more worried that everyone thinks your (a) "
+  - '(c) comes from a rough background but growing up, they worked hard to overcome
+    that, too bad they ended up (a) '
+  - '(c) comes from a long line family line, just like their ancestors, all of them
+    were (a) too '
+  - '(c) was kicked out of (a) school for being to (a) '
+  - "(c) \u2018s ex left them for being (a) and thats funny "
+  - '(c) is a tough opponent, they never lose anything, except for their (n) '

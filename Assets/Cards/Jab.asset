@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 614160a9560224f4fb82f44d5a444cab, type: 3}
+  m_Name: Jab
+  m_EditorClassIdentifier: 
+  cardName: Jab
+  description: "-1\u2665 to opponent's scores this act. Grants 1\u2665."
+  graphic: {fileID: 0}
+  baseScore: 1
+  style: 0
+  effects:
+  - {fileID: 11400000, guid: 6f1f1543b37fcca44b8c4db4cd7c5e2e, type: 2}
+  scoringRule: {fileID: 11400000, guid: b2abce99d6f10da4188b93e62b13aac2, type: 2}
+  dialogueLines:
+  - 'You really are (a) '
+  - '(a) '
+  - 'No wonder you''re like this, your (n) is (a)  '
+  - 'Don''t need friends when you have (n) right '
+  - 'Being put on the same stage as you is insult enough '

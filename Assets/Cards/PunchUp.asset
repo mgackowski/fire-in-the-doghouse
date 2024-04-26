@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 614160a9560224f4fb82f44d5a444cab, type: 3}
+  m_Name: PunchUp
+  m_EditorClassIdentifier: 
+  cardName: PunchUp
+  description: "4\u2665 if you're losing, 1\u2665 otherwise."
+  graphic: {fileID: 0}
+  baseScore: 0
+  style: 0
+  effects: []
+  scoringRule: {fileID: 11400000, guid: c0ca0d0954b5b5e44810e83d624d9c87, type: 2}
+  dialogueLines:
+  - 'How can you be so rich and still not have a (n) '
+  - "Everyone likes (c), I wish i was as rich then maybe i\u2019d be as (a) as you "
+  - "(c) isn\u2019t used to speaking to people like me, they\u2019re usually found
+    spending time with their (a) million-pound  "
