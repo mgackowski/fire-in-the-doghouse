@@ -1,4 +1,5 @@
 using System;
+using Unity.PlasticSCM.Editor.WebApi;
 using UnityEngine;
 
 /**
@@ -97,6 +98,11 @@ public class ActCoordinator : MonoBehaviour
             Debug.LogError("Attempted to resolve card but Q empty.");
             return;
         }
+
+        cardPlayArgs = new CardPlayArgs()
+        {
+            CardPlay = currentPlay
+        };
 
         MessageSystem.Push($"{currentPlay.player.ComedianName} plays {currentPlay.card.cardName}.", MessageType.SYSTEM);
 
@@ -237,7 +243,7 @@ public class ActCoordinator : MonoBehaviour
         }
 
         stateArgs = new GameplayStateArgs() { State = state };
-        cardPlayArgs = new CardPlayArgs() { CardPlay = currentPlay };   // TODO: CardPlay is value type and won't update here!
+        cardPlayArgs = new CardPlayArgs() { CardPlay = currentPlay };
         dialogueGenerator = new DialogueGenerator(nounsList, adjectivesList);
 
         GameplayEventBus.Instance().Subscribe<ActIntroStartedEvent, GameplayStateArgs>(OnActIntroStarted);
