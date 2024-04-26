@@ -5,7 +5,7 @@ using System;
  */
 public class GameplayEvent<T> : IGameEvent<T> where T : IEventArgs
 {
-    Action<T> callbacks;
+    Action<T> callbacks = args => { };
 
     public void Subscribe(Action<T> action)
     {

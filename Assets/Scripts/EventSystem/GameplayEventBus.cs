@@ -14,7 +14,7 @@ using System.Collections.Generic;
 public class GameplayEventBus : IEventBus
 {
     static GameplayEventBus instance;
-    static Dictionary<Type, GameplayEvent<IEventArgs>> events = new Dictionary<Type, GameplayEvent<IEventArgs>>();
+    Dictionary<Type, Func<object>> events = new();
 
     GameplayEventBus() { }
 
@@ -35,7 +35,8 @@ public class GameplayEventBus : IEventBus
         where T: GameplayEvent<U>, new()
         where U : IEventArgs
     {
-        GetEvent<T, U>()?.Subscribe(callback);
+        var gameEvent = GetEvent<T, U>();
+        gameEvent.Subscribe(callback);
     }
 
     /*
@@ -46,7 +47,8 @@ public class GameplayEventBus : IEventBus
         where T : GameplayEvent<U>, new()
         where U : IEventArgs
     {
-        GetEvent<T, U>()?.Unsubscribe(callback);
+        var gameEvent = GetEvent<T, U>();
+        gameEvent.Unsubscribe(callback);
     }
 
     /*
@@ -56,23 +58,25 @@ public class GameplayEventBus : IEventBus
         where T : GameplayEvent<U>, new()
         where U : IEventArgs
     {
-        GetEvent<T, U>()?.Publish(args);
+        var gameEvent = GetEvent<T, U>();
+        gameEvent.Publish(args);
     }
 
+    //TODO: The casts here produce null results; investigate
     static T GetEvent<T, U>()
     where T : GameplayEvent<U>, new()
     where U : IEventArgs
     {
-        if (events.ContainsKey(typeof(T)))
+        if (instance.events.ContainsKey(typeof(T)))
         {
-            return events[typeof(T)] as T;
+            return instance.events[typeof(T)]() as T;
         }
         else
         {
             // no need to populate dictionary with all possible events at start,
             // they are created on demand at request time (max 1 of each)
-            T newEvent = new T();
-            events.Add(typeof(T), newEvent as GameplayEvent<IEventArgs>);
+            var newEvent = new T();
+            instance.events.Add(typeof(T), () => newEvent);
             return newEvent;
         }
     }

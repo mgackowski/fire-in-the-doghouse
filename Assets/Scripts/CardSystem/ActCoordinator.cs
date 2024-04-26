@@ -6,6 +6,8 @@ using UnityEngine;
  * order. This class raises events to the GameplayEventBus whenever a stage is
  * about to start (e.g. TurnStarted, DialogueStarted), and waits for a
  * corresponding "Finished" event to be raised to continue.
+ * Starts by receiving an ActIntroStarted event with a set of GameplayStateArgs,
+ * which are injected into the object and used as a source of truth onwards.
  */
 public class ActCoordinator : MonoBehaviour
 {
@@ -41,21 +43,20 @@ public class ActCoordinator : MonoBehaviour
     /* The start of the act - cards are already selected, now the player observes
      * how the battle resolves across multiple turns.
      */
-    private void StartActIntro()
+    private void OnActIntroStarted(GameplayStateArgs args)
     {
+        SetNewState(args.State);
+
         state.CurrentNoun = dialogueGenerator.GetRandomNoun();
         state.CurrentAdjective = dialogueGenerator.GetRandomAdjective();
 
         state.HumanComedian.ResetComedian();
         state.CpuComedian.ResetComedian();
-
-        GameplayEventBus.Instance().Publish<ActIntroStartedEvent, GameplayStateArgs>(stateArgs);
     }
 
     private void OnActIntroFinished(GameplayStateArgs args)
     {
         if (actState != ActState.ActIntroStarted) return;
-        GameplayState state = args.State;
 
         actState = ActState.ActIntroFinished;
         if (state.CardQueue.Count > 0)
@@ -64,6 +65,7 @@ public class ActCoordinator : MonoBehaviour
         }
         else
         {
+            Debug.Log("No more cards in queue, skipping to act ending.");
             StartActEnding();
         }
         
@@ -197,13 +199,12 @@ public class ActCoordinator : MonoBehaviour
 
         if (state.CardQueue.Count > 0)
         {
-            StartActIntro();
+            StartTurnStartAnimations();
         }
         else
         {
             StartActEnding();
         }
-        StartTurnEnding();
     }
 
     /* No more cards in queue - finish up Act */
@@ -231,7 +232,7 @@ public class ActCoordinator : MonoBehaviour
     {
         if (state == null)
         {
-            Debug.LogWarning("ActCoordinator.Awake() called and no GameplayState present; creating an empty state.");
+            Debug.Log("ActCoordinator.Awake() called and no GameplayState present; creating an empty state.");
             state = new GameplayState();
         }
 
@@ -242,6 +243,7 @@ public class ActCoordinator : MonoBehaviour
 
     private void Start()
     {
+        GameplayEventBus.Instance().Subscribe<ActIntroStartedEvent, GameplayStateArgs>(OnActIntroStarted);
         GameplayEventBus.Instance().Subscribe<ActIntroFinishedEvent, GameplayStateArgs>(OnActIntroFinished);
         GameplayEventBus.Instance().Subscribe<TurnStartAnimationsFinishedEvent, DefaultEventArgs>(OnTurnStartAnimationsFinished);
         GameplayEventBus.Instance().Subscribe<CardPlayAnimationsFinishedEvent, DefaultEventArgs>(OnCardPlayAnimationsFinished);
@@ -254,6 +256,7 @@ public class ActCoordinator : MonoBehaviour
 
     private void OnDestroy()
     {
+        GameplayEventBus.Instance().Unsubscribe<ActIntroStartedEvent, GameplayStateArgs>(OnActIntroStarted);
         GameplayEventBus.Instance().Unsubscribe<ActIntroFinishedEvent, GameplayStateArgs>(OnActIntroFinished);
         GameplayEventBus.Instance().Unsubscribe<TurnStartAnimationsFinishedEvent, DefaultEventArgs>(OnTurnStartAnimationsFinished);
         GameplayEventBus.Instance().Unsubscribe<CardPlayAnimationsFinishedEvent, DefaultEventArgs>(OnCardPlayAnimationsFinished);
