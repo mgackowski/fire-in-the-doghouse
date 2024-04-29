@@ -177,11 +177,13 @@ public class ActCoordinator : MonoBehaviour
 
         GameplayEventBus.Instance().Publish<ScoreResolutionStartedEvent, ScoreArgs>(new ScoreArgs()
         {
-            TurnScore = effectiveScore
-        }) ;
+            TurnPlayer = currentPlay.player,
+            TurnScore = effectiveScore,
+            TotalScore = currentPlay.player.Score
+        });
     }
 
-    public void OnScoreResolutionFinished(DefaultEventArgs args)
+    public void OnScoreResolutionFinished(ScoreArgs args)
     {
         if (actState != ActState.ScoreResolutionStarted) return;
         actState = ActState.ScoreResolutionFinished;
@@ -250,7 +252,7 @@ public class ActCoordinator : MonoBehaviour
         GameplayEventBus.Instance().Subscribe<TurnStartAnimationsFinishedEvent, DefaultEventArgs>(OnTurnStartAnimationsFinished);
         GameplayEventBus.Instance().Subscribe<CardPlayAnimationsFinishedEvent, DefaultEventArgs>(OnCardPlayAnimationsFinished);
         GameplayEventBus.Instance().Subscribe<DialogueFinishedEvent, DefaultEventArgs>(OnDialogueFinished);
-        GameplayEventBus.Instance().Subscribe<ScoreResolutionFinishedEvent, DefaultEventArgs>(OnScoreResolutionFinished);
+        GameplayEventBus.Instance().Subscribe<ScoreResolutionFinishedEvent, ScoreArgs>(OnScoreResolutionFinished);
         GameplayEventBus.Instance().Subscribe<EffectResolutionFinishedEvent, DefaultEventArgs>(OnEffectResolutionFinished);
         GameplayEventBus.Instance().Subscribe<TurnEndingFinishedEvent, DefaultEventArgs>(OnTurnFinished);
         GameplayEventBus.Instance().Subscribe<ActEndingFinishedEvent, DefaultEventArgs>(OnActEndingFinished);
@@ -263,7 +265,7 @@ public class ActCoordinator : MonoBehaviour
         GameplayEventBus.Instance().Unsubscribe<TurnStartAnimationsFinishedEvent, DefaultEventArgs>(OnTurnStartAnimationsFinished);
         GameplayEventBus.Instance().Unsubscribe<CardPlayAnimationsFinishedEvent, DefaultEventArgs>(OnCardPlayAnimationsFinished);
         GameplayEventBus.Instance().Unsubscribe<DialogueFinishedEvent, DefaultEventArgs>(OnDialogueFinished);
-        GameplayEventBus.Instance().Unsubscribe<ScoreResolutionFinishedEvent, DefaultEventArgs>(OnScoreResolutionFinished);
+        GameplayEventBus.Instance().Unsubscribe<ScoreResolutionFinishedEvent, ScoreArgs>(OnScoreResolutionFinished);
         GameplayEventBus.Instance().Unsubscribe<EffectResolutionFinishedEvent, DefaultEventArgs>(OnEffectResolutionFinished);
         GameplayEventBus.Instance().Unsubscribe<TurnEndingFinishedEvent, DefaultEventArgs>(OnTurnFinished);
         GameplayEventBus.Instance().Unsubscribe<ActEndingFinishedEvent, DefaultEventArgs>(OnActEndingFinished);

@@ -50,7 +50,7 @@ public class AutoSkipper : MonoBehaviour
     GameplayStateArgs emptyStateArgs = new GameplayStateArgs() { State = new GameplayState() };
     CardPlayArgs emptyPlay = new CardPlayArgs() { CardPlay = new CardPlay() };
     DialogueArgs emptyDialogue = new DialogueArgs() { DialogueLine = "(Testing only)" };
-    ScoreArgs emptyScore = new ScoreArgs() { TurnScore = 0 };
+    ScoreArgs emptyScore = new ScoreArgs() { TurnScore = 0, TurnPlayer = new Comedian("Test", 0) };
 
     IEnumerator InvokeDelayedEvent<T, U>(float delay, U args)
         where T : GameplayEvent<U>, new()
@@ -125,7 +125,7 @@ public class AutoSkipper : MonoBehaviour
     void OnScoreResolutionStarted(IEventArgs args)
     {
         if (scoreResolutionStartedEvent)
-            StartCoroutine(InvokeDelayedEvent<ScoreResolutionFinishedEvent, DefaultEventArgs>(scoreResolutionStartedEventWait, emptyArgs));
+            StartCoroutine(InvokeDelayedEvent<ScoreResolutionFinishedEvent, ScoreArgs>(scoreResolutionStartedEventWait, emptyScore));
     }
 
     void OnScoreResolutionFinished(IEventArgs args)
@@ -171,7 +171,7 @@ public class AutoSkipper : MonoBehaviour
         GameplayEventBus.Instance().Subscribe<EffectResolutionStartedEvent, CardPlayArgs>(OnEffectResolutionStarted);
         GameplayEventBus.Instance().Subscribe<EffectResolutionFinishedEvent, DefaultEventArgs>(OnEffectResolutionFinished);
         GameplayEventBus.Instance().Subscribe<ScoreResolutionStartedEvent, ScoreArgs>(OnScoreResolutionStarted);
-        GameplayEventBus.Instance().Subscribe<ScoreResolutionFinishedEvent, DefaultEventArgs>(OnScoreResolutionFinished);
+        GameplayEventBus.Instance().Subscribe<ScoreResolutionFinishedEvent, ScoreArgs>(OnScoreResolutionFinished);
         GameplayEventBus.Instance().Subscribe<TurnEndingStartedEvent, DefaultEventArgs>(OnTurnEndingStarted);
         GameplayEventBus.Instance().Subscribe<TurnEndingFinishedEvent, DefaultEventArgs>(OnTurnEndingFinished);
         GameplayEventBus.Instance().Subscribe<ActEndingStartedEvent, DefaultEventArgs>(OnActEndingStarted);
@@ -200,7 +200,7 @@ public class AutoSkipper : MonoBehaviour
         GameplayEventBus.Instance().Unsubscribe<EffectResolutionStartedEvent, CardPlayArgs>(OnEffectResolutionStarted);
         GameplayEventBus.Instance().Unsubscribe<EffectResolutionFinishedEvent, DefaultEventArgs>(OnEffectResolutionFinished);
         GameplayEventBus.Instance().Unsubscribe<ScoreResolutionStartedEvent, ScoreArgs>(OnScoreResolutionStarted);
-        GameplayEventBus.Instance().Unsubscribe<ScoreResolutionFinishedEvent, DefaultEventArgs>(OnScoreResolutionFinished);
+        GameplayEventBus.Instance().Unsubscribe<ScoreResolutionFinishedEvent, ScoreArgs>(OnScoreResolutionFinished);
         GameplayEventBus.Instance().Unsubscribe<TurnEndingStartedEvent, DefaultEventArgs>(OnTurnEndingStarted);
         GameplayEventBus.Instance().Unsubscribe<TurnEndingFinishedEvent, DefaultEventArgs>(OnTurnEndingFinished);
         GameplayEventBus.Instance().Unsubscribe<ActEndingStartedEvent, DefaultEventArgs>(OnActEndingStarted);

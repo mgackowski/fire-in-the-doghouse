@@ -13,7 +13,7 @@ public class DialogueFinishedEvent : GameplayEvent<DefaultEventArgs> { }
 public class EffectResolutionStartedEvent : GameplayEvent<CardPlayArgs> { }
 public class EffectResolutionFinishedEvent : GameplayEvent<DefaultEventArgs> { }
 public class ScoreResolutionStartedEvent : GameplayEvent<ScoreArgs> { }
-public class ScoreResolutionFinishedEvent : GameplayEvent<DefaultEventArgs> { }
+public class ScoreResolutionFinishedEvent : GameplayEvent<ScoreArgs> { }
 public class TurnEndingStartedEvent : GameplayEvent<DefaultEventArgs> { }
 public class TurnEndingFinishedEvent : GameplayEvent<DefaultEventArgs> { }
 public class ActEndingStartedEvent : GameplayEvent<DefaultEventArgs> { }

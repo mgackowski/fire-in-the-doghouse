@@ -21,15 +21,15 @@ public class Audience : MonoBehaviour
 
         if (triggerFinishedEvent)
         {
-            StartCoroutine(WaitForFinish());
+            StartCoroutine(WaitForFinish(args));
         }
     }
 
-    private IEnumerator WaitForFinish()
+    private IEnumerator WaitForFinish(ScoreArgs args)
     {
         yield return new WaitForSeconds(triggerAfterSeconds);
         //TODO: DefaultEventArgs should provide a prototype without instantiation
-        GameplayEventBus.Instance().Publish<ScoreResolutionFinishedEvent, DefaultEventArgs>(new DefaultEventArgs());
+        GameplayEventBus.Instance().Publish<ScoreResolutionFinishedEvent, ScoreArgs>(args);
     }
 
     private void Awake()
