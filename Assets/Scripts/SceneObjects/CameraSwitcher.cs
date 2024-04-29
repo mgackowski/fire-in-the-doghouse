@@ -2,6 +2,9 @@ using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
 
+/** 
+ * Responds to GameplayEvents to set the camera in use.
+ */
 public class CameraSwitcher : MonoBehaviour
 {
     [SerializeField] CinemachineVirtualCamera humanPerformer;

@@ -50,7 +50,7 @@ public class AutoSkipper : MonoBehaviour
     GameplayStateArgs emptyStateArgs = new GameplayStateArgs() { State = new GameplayState() };
     CardPlayArgs emptyPlay = new CardPlayArgs() { CardPlay = new CardPlay() };
     DialogueArgs emptyDialogue = new DialogueArgs() { DialogueLine = "(Testing only)" };
-    ScoreArgs emptyScore = new ScoreArgs() { NewScore = 0 };
+    ScoreArgs emptyScore = new ScoreArgs() { TurnScore = 0 };
 
     IEnumerator InvokeDelayedEvent<T, U>(float delay, U args)
         where T : GameplayEvent<U>, new()

@@ -17,7 +17,7 @@ public class ComedianSpeech : MonoBehaviour
 
     TextMeshProUGUI textComponent;
 
-    private void Start()
+    private void Awake()
     {
         GameplayEventBus.Instance().Subscribe<DialogueStartedEvent, DialogueArgs>(OnDialogueStarted);
         textComponent = GetComponent<TextMeshProUGUI>();

@@ -177,7 +177,7 @@ public class ActCoordinator : MonoBehaviour
 
         GameplayEventBus.Instance().Publish<ScoreResolutionStartedEvent, ScoreArgs>(new ScoreArgs()
         {
-            NewScore = effectiveScore
+            TurnScore = effectiveScore
         }) ;
     }
 

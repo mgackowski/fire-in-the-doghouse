@@ -42,5 +42,8 @@ public class DialogueArgs : IEventArgs
 
 public class ScoreArgs : IEventArgs
 {
-    public int NewScore { get; set; }
+    public Comedian TurnPlayer { get; set; }
+    public int TurnScore { get; set; }
+    public int TotalScore {  get; set; }
+
 }
