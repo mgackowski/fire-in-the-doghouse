@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Payoff
   description: "5\u2665 if Setup played."
-  graphic: {fileID: 0}
+  graphic: {fileID: 21300000, guid: 8ddf86547f88efd4d80d5b22d7e394dd, type: 3}
   baseScore: 0
   style: 0
   effects:

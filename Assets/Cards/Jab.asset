@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Jab
   description: "-1\u2665 to opponent's scores this act. Grants 1\u2665."
-  graphic: {fileID: 0}
+  graphic: {fileID: 21300000, guid: 0dd768a4534d65741b08bbf9a536d2b9, type: 3}
   baseScore: 1
   style: 0
   effects:

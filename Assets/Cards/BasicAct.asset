@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Basic Act
   description: "Grants 2\u2665."
-  graphic: {fileID: 0}
+  graphic: {fileID: 21300000, guid: f45467d8263a0a54c9cf67db6d06b1a2, type: 3}
   baseScore: 2
   style: 0
   effects: []

@@ -23,7 +23,7 @@ public class ScoreDisplay : MonoBehaviour
     /*
      * A simple effect for emphasis until we develop the UI more fully
      */
-    private IEnumerator EmphasizeText(float scale = 1.5f, float duration = 0.3f)
+    private IEnumerator EmphasizeText(float scale = 3f, float duration = 0.3f)
     {
         float originalSize = textComponent.fontSize;
         textComponent.fontSize *= scale;

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: PunchUp
   description: "4\u2665 if you're losing, 1\u2665 otherwise."
-  graphic: {fileID: 0}
+  graphic: {fileID: 21300000, guid: 101ac47ac3e300c48ab94cb18244009b, type: 3}
   baseScore: 0
   style: 0
   effects: []

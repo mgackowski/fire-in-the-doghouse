@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Segue
   description: "Grants 2\u2665."
-  graphic: {fileID: 0}
+  graphic: {fileID: 21300000, guid: c654784880145d2479b33c5296d60931, type: 3}
   baseScore: 2
   style: 0
   effects: []
