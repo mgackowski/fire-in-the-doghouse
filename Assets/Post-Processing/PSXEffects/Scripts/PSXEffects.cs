@@ -84,7 +84,7 @@ public class PSXEffects : MonoBehaviour {
 		}
 
 		UpdateProperties();
-		CheckForUpdates();
+		//CheckForUpdates();
 	}
 
 	private void Start() {

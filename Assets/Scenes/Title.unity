@@ -191,12 +191,16 @@ PrefabInstance:
       value: PSXEffects v1.18.4 - version ahead?!
       objectReference: {fileID: 0}
     - target: {fileID: 8550839714435826820, guid: 1af7b91f8cccfb64281132453f65b6e3, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8550839714435826820, guid: 1af7b91f8cccfb64281132453f65b6e3, type: 3}
       propertyPath: customRes.x
-      value: 638
+      value: 402
       objectReference: {fileID: 0}
     - target: {fileID: 8550839714435826820, guid: 1af7b91f8cccfb64281132453f65b6e3, type: 3}
       propertyPath: customRes.y
-      value: 344
+      value: 226
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1af7b91f8cccfb64281132453f65b6e3, type: 3}
@@ -751,7 +755,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2073204146
 GameObject:
