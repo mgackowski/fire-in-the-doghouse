@@ -140,7 +140,7 @@ public class ActCoordinator : MonoBehaviour
     {
         if (actState != ActState.DialogueStarted) return;
         actState = ActState.DialogueFinished;
-        StartScoreResolution();
+        StartEffectResolution();
     }
 
     /* Apply additional effects caused by the play, e.g. place penalty on opponent.
@@ -148,13 +148,23 @@ public class ActCoordinator : MonoBehaviour
     public void StartEffectResolution()
     {
         actState = ActState.EffectResolutionStarted;
+        if (currentPlay.card.effects.Count == 0)
+        {
+            OnEffectResolutionFinished(new DefaultEventArgs());
+            return;
+        }
 
         foreach (CardEffect effect in currentPlay.card.effects)
         {
             effect.applyEffect(currentPlay, state);
+            CardEffectArgs args = new CardEffectArgs()
+            {
+                EffectName = effect.Name,
+                Target = currentPlay.player // actually the invoker
+            };
+            GameplayEventBus.Instance().Publish<EffectResolutionStartedEvent, CardEffectArgs>(args);
         }
-        // TODO: Raise for each effect, sequentially, and use more specific args e.g. EffectArgs
-        GameplayEventBus.Instance().Publish<EffectResolutionStartedEvent, CardPlayArgs>(cardPlayArgs);
+        
     }
 
     public void OnEffectResolutionFinished(DefaultEventArgs args)

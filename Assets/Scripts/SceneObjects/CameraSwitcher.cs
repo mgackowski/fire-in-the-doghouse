@@ -46,7 +46,7 @@ public class CameraSwitcher : MonoBehaviour
         }
     }
 
-    private void OnEffectResolutionStarted(CardPlayArgs args)
+    private void OnEffectResolutionStarted(CardEffectArgs args)
     {
         SwitchTo(stage);
     }
@@ -75,7 +75,7 @@ public class CameraSwitcher : MonoBehaviour
         GameplayEventBus.Instance().Subscribe<ActIntroStartedEvent, GameplayStateArgs>(OnActIntroStarted);
         GameplayEventBus.Instance().Subscribe<TurnStartAnimationsStartedEvent, GameplayStateArgs>(OnTurnStartAnimationsStarted);
         GameplayEventBus.Instance().Subscribe<CardPlayAnimationsStartedEvent, CardPlayArgs>(OnCardPlayAnimationsStarted);
-        GameplayEventBus.Instance().Subscribe<EffectResolutionStartedEvent, CardPlayArgs>(OnEffectResolutionStarted);
+        GameplayEventBus.Instance().Subscribe<EffectResolutionStartedEvent, CardEffectArgs>(OnEffectResolutionStarted);
         GameplayEventBus.Instance().Subscribe<ScoreResolutionStartedEvent, ScoreArgs>(OnScoreResolutionStarted);
         GameplayEventBus.Instance().Subscribe<TurnEndingStartedEvent, DefaultEventArgs>(OnTurnEndingStarted);
         GameplayEventBus.Instance().Subscribe<ActEndingStartedEvent, DefaultEventArgs>(OnActEndingStarted);
@@ -87,7 +87,7 @@ public class CameraSwitcher : MonoBehaviour
         GameplayEventBus.Instance().Unsubscribe<ActIntroStartedEvent, GameplayStateArgs>(OnActIntroStarted);
         GameplayEventBus.Instance().Unsubscribe<TurnStartAnimationsStartedEvent, GameplayStateArgs>(OnTurnStartAnimationsStarted);
         GameplayEventBus.Instance().Unsubscribe<CardPlayAnimationsStartedEvent, CardPlayArgs>(OnCardPlayAnimationsStarted);
-        GameplayEventBus.Instance().Unsubscribe<EffectResolutionStartedEvent, CardPlayArgs>(OnEffectResolutionStarted);
+        GameplayEventBus.Instance().Unsubscribe<EffectResolutionStartedEvent, CardEffectArgs>(OnEffectResolutionStarted);
         GameplayEventBus.Instance().Unsubscribe<ScoreResolutionStartedEvent, ScoreArgs>(OnScoreResolutionStarted);
         GameplayEventBus.Instance().Unsubscribe<TurnEndingStartedEvent, DefaultEventArgs>(OnTurnEndingStarted);
         GameplayEventBus.Instance().Unsubscribe<ActEndingStartedEvent, DefaultEventArgs>(OnActEndingStarted);

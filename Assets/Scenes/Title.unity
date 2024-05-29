@@ -188,11 +188,11 @@ PrefabInstance:
       objectReference: {fileID: 773390936}
     - target: {fileID: 8550839714435826820, guid: 1af7b91f8cccfb64281132453f65b6e3, type: 3}
       propertyPath: cfuStatus
-      value: PSXEffects v1.18.4 - version ahead?!
+      value: PSXEffects v1.18.4
       objectReference: {fileID: 0}
     - target: {fileID: 8550839714435826820, guid: 1af7b91f8cccfb64281132453f65b6e3, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8550839714435826820, guid: 1af7b91f8cccfb64281132453f65b6e3, type: 3}
       propertyPath: customRes.x

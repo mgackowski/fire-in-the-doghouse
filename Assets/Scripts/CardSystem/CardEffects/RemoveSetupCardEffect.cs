@@ -3,7 +3,7 @@
 [CreateAssetMenu(menuName = "ScriptableObjects/CardEffect/RemoveSetupCardEffect")]
 public class RemoveSetupCardEffect : CardEffect
 {
-    public new string Name { get; } = "Remove Setup";
+    public override string Name { get; } = "Remove Setup";
 
     public override void applyEffect(CardPlay invoker, GameplayState context)
     {
