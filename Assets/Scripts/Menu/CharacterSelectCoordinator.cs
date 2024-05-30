@@ -33,7 +33,7 @@ public class CharacterSelectCoordinator : MonoBehaviour
         }
 
         // Finally, create an object to transfer this information to the next scene:
-        Instantiate(nextSceneMessengerPrefab);
+        Instantiate(nextSceneMessengerPrefab).GetComponent<CharacterToCardSceneTransition>().SetState(state);
 
         // Other objects in the scene are scripted to perform a scene transition when animations
         // are finished.

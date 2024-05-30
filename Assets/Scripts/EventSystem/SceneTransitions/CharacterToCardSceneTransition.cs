@@ -5,6 +5,11 @@ public class CharacterToCardSceneTransition : MonoBehaviour
 {
     GameplayState state;
 
+    public void SetState(GameplayState stateToCarry)
+    {
+        state = stateToCarry;
+    }
+
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         GameplayStateArgs args = new GameplayStateArgs()

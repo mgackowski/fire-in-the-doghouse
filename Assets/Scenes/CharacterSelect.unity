@@ -340,11 +340,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5140929100783333636, guid: 3226f4d11d148494bbe5fffe0b0205cd, type: 3}
       propertyPath: level
-      value: MainScene
+      value: CardSelect
       objectReference: {fileID: 0}
     - target: {fileID: 5140929100783333636, guid: 3226f4d11d148494bbe5fffe0b0205cd, type: 3}
       propertyPath: destroyMusic
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7048588834952107743, guid: 3226f4d11d148494bbe5fffe0b0205cd, type: 3}
       propertyPath: m_Pivot.x

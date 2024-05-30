@@ -2,4 +2,4 @@
  * By <author>mgackowski</author>.
  */
 
-public class CardSelectFinishedEvent : GameplayEvent<GameplayStateArgs> { }
+public class CardSelectFinishedEvent : GameplayEvent<DefaultEventArgs> { }
