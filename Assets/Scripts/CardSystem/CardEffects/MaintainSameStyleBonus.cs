@@ -3,7 +3,7 @@
 [CreateAssetMenu(menuName = "ScriptableObjects/CardEffect/MaintainSameStyleBonus")]
 public class MaintainSameStyleBonus : CardEffect
 {
-    public new string Name { get; } = "Maintain style bonus";
+    public override string Name { get; } = "Maintain style bonus";
 
     public override void applyEffect(CardPlay invoker, GameplayState context)
     {

@@ -1,0 +1,254 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-5055610136698084690
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa708a4c07b4f9e4abfa2c75cbbccccf, type: 3}
+  m_Name: RLProPhosphor
+  m_EditorClassIdentifier: 
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  fade:
+    overrideState: 1
+    value: 0.009
+  width:
+    overrideState: 1
+    value: 13.1
+  mask:
+    overrideState: 1
+    value: {fileID: 0}
+    defaultState: 1
+  maskChannel:
+    overrideState: 1
+    value: 0
+--- !u!114 &-3629009275693503846
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ed4ab296b29a4c22a569cf0dae573fb, type: 3}
+  m_Name: RLProUltimateVignette
+  m_EditorClassIdentifier: 
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  vignetteShape:
+    overrideState: 1
+    value: 0
+  center:
+    overrideState: 1
+    value: {x: 0.5, y: 0.5}
+  vignetteAmount:
+    overrideState: 1
+    value: 26.4
+  vignetteFineTune:
+    overrideState: 0
+    value: -10
+  edgeSoftness:
+    overrideState: 1
+    value: 1.5
+  edgeBlend:
+    overrideState: 1
+    value: 0
+  innerColorAlpha:
+    overrideState: 1
+    value: 0
+  innerColor:
+    overrideState: 1
+    value: {r: 0, g: 0, b: 0, a: 0}
+--- !u!114 &-3127116682706529160
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d7a1cf4cc9a64c299a7b35f7444f4d9, type: 3}
+  m_Name: RLProVHSScanlines
+  m_EditorClassIdentifier: 
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  scanLinesColor:
+    overrideState: 1
+    value: {r: 0.54901963, g: 0.21960786, b: 0.10196079, a: 0}
+  scanLines:
+    overrideState: 1
+    value: 0.98
+  speed:
+    overrideState: 1
+    value: 0.06
+  fade:
+    overrideState: 1
+    value: 0.016
+  horizontal:
+    overrideState: 1
+    value: 1
+  distortion:
+    overrideState: 1
+    value: 3188
+  distortion1:
+    overrideState: 1
+    value: 0
+  distortion2:
+    overrideState: 1
+    value: 0
+  scale:
+    overrideState: 1
+    value: 0
+  mask:
+    overrideState: 1
+    value: {fileID: 0}
+    defaultState: 1
+  maskChannel:
+    overrideState: 1
+    value: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e6292b2c06870d4495f009f912b9600, type: 3}
+  m_Name: Menu
+  m_EditorClassIdentifier: 
+  settings:
+  - {fileID: -3629009275693503846}
+  - {fileID: 9003992432337311548}
+  - {fileID: -3127116682706529160}
+  - {fileID: 5869685015389047314}
+  - {fileID: -5055610136698084690}
+--- !u!114 &5869685015389047314
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd4c6e29127a742be83c53c4a52bda22, type: 3}
+  m_Name: RLProGlitch1
+  m_EditorClassIdentifier: 
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  amount:
+    overrideState: 1
+    value: 0.01
+  stretch:
+    overrideState: 1
+    value: 1.67
+  speed:
+    overrideState: 1
+    value: 0.271
+  fade:
+    overrideState: 1
+    value: 0.15
+  rMultiplier:
+    overrideState: 1
+    value: -0.08
+  gMultiplier:
+    overrideState: 1
+    value: 1
+  bMultiplier:
+    overrideState: 1
+    value: 1
+  x:
+    overrideState: 1
+    value: 101
+  y:
+    overrideState: 1
+    value: 10002
+  angleY:
+    overrideState: 1
+    value: 200
+  mask:
+    overrideState: 1
+    value: {fileID: 0}
+    defaultState: 1
+  maskChannel:
+    overrideState: 1
+    value: 0
+--- !u!114 &9003992432337311548
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 137742241a85042e589ba3178d08c2f4, type: 3}
+  m_Name: RLProJitter
+  m_EditorClassIdentifier: 
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  twitchHorizontal:
+    overrideState: 1
+    value: 0
+  horizontalFreq:
+    overrideState: 1
+    value: 1
+  twitchVertical:
+    overrideState: 1
+    value: 0
+  verticalFreq:
+    overrideState: 1
+    value: 0.82
+  twitchVerticalInterval:
+    overrideState: 1
+    value: 1
+  stretch:
+    overrideState: 1
+    value: 0
+  stretchResolution:
+    overrideState: 1
+    value: 1.45
+  jitterHorizontal:
+    overrideState: 1
+    value: 0
+  jitterHorizontalAmount:
+    overrideState: 1
+    value: 0.34
+  jitterVertical:
+    overrideState: 1
+    value: 0
+  jitterVerticalAmount:
+    overrideState: 1
+    value: 1
+  jitterVerticalSpeed:
+    overrideState: 1
+    value: 1
+  unscaledTime:
+    overrideState: 1
+    value: 0
+  mask:
+    overrideState: 1
+    value: {fileID: 0}
+    defaultState: 1
+  maskChannel:
+    overrideState: 1
+    value: 0

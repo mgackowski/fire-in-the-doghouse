@@ -98,6 +98,11 @@ public class ActCoordinator : MonoBehaviour
             return;
         }
 
+        cardPlayArgs = new CardPlayArgs()
+        {
+            CardPlay = currentPlay
+        };
+
         MessageSystem.Push($"{currentPlay.player.ComedianName} plays {currentPlay.card.cardName}.", MessageType.SYSTEM);
 
         GameplayEventBus.Instance().Publish<CardPlayAnimationsStartedEvent, CardPlayArgs>(cardPlayArgs);
@@ -135,7 +140,7 @@ public class ActCoordinator : MonoBehaviour
     {
         if (actState != ActState.DialogueStarted) return;
         actState = ActState.DialogueFinished;
-        StartScoreResolution();
+        StartEffectResolution();
     }
 
     /* Apply additional effects caused by the play, e.g. place penalty on opponent.
@@ -143,13 +148,23 @@ public class ActCoordinator : MonoBehaviour
     public void StartEffectResolution()
     {
         actState = ActState.EffectResolutionStarted;
+        if (currentPlay.card.effects.Count == 0)
+        {
+            OnEffectResolutionFinished(new DefaultEventArgs());
+            return;
+        }
 
         foreach (CardEffect effect in currentPlay.card.effects)
         {
             effect.applyEffect(currentPlay, state);
+            CardEffectArgs args = new CardEffectArgs()
+            {
+                EffectName = effect.Name,
+                Target = currentPlay.player // actually the invoker
+            };
+            GameplayEventBus.Instance().Publish<EffectResolutionStartedEvent, CardEffectArgs>(args);
         }
-        // TODO: Raise for each effect, sequentially, and use more specific args e.g. EffectArgs
-        GameplayEventBus.Instance().Publish<EffectResolutionStartedEvent, CardPlayArgs>(cardPlayArgs);
+        
     }
 
     public void OnEffectResolutionFinished(DefaultEventArgs args)
@@ -172,11 +187,13 @@ public class ActCoordinator : MonoBehaviour
 
         GameplayEventBus.Instance().Publish<ScoreResolutionStartedEvent, ScoreArgs>(new ScoreArgs()
         {
-            NewScore = effectiveScore
-        }) ;
+            TurnPlayer = currentPlay.player,
+            TurnScore = effectiveScore,
+            TotalScore = currentPlay.player.Score
+        });
     }
 
-    public void OnScoreResolutionFinished(DefaultEventArgs args)
+    public void OnScoreResolutionFinished(ScoreArgs args)
     {
         if (actState != ActState.ScoreResolutionStarted) return;
         actState = ActState.ScoreResolutionFinished;
@@ -237,18 +254,15 @@ public class ActCoordinator : MonoBehaviour
         }
 
         stateArgs = new GameplayStateArgs() { State = state };
-        cardPlayArgs = new CardPlayArgs() { CardPlay = currentPlay };   // TODO: CardPlay is value type and won't update here!
+        cardPlayArgs = new CardPlayArgs() { CardPlay = currentPlay };
         dialogueGenerator = new DialogueGenerator(nounsList, adjectivesList);
-    }
 
-    private void Start()
-    {
         GameplayEventBus.Instance().Subscribe<ActIntroStartedEvent, GameplayStateArgs>(OnActIntroStarted);
         GameplayEventBus.Instance().Subscribe<ActIntroFinishedEvent, GameplayStateArgs>(OnActIntroFinished);
         GameplayEventBus.Instance().Subscribe<TurnStartAnimationsFinishedEvent, DefaultEventArgs>(OnTurnStartAnimationsFinished);
         GameplayEventBus.Instance().Subscribe<CardPlayAnimationsFinishedEvent, DefaultEventArgs>(OnCardPlayAnimationsFinished);
         GameplayEventBus.Instance().Subscribe<DialogueFinishedEvent, DefaultEventArgs>(OnDialogueFinished);
-        GameplayEventBus.Instance().Subscribe<ScoreResolutionFinishedEvent, DefaultEventArgs>(OnScoreResolutionFinished);
+        GameplayEventBus.Instance().Subscribe<ScoreResolutionFinishedEvent, ScoreArgs>(OnScoreResolutionFinished);
         GameplayEventBus.Instance().Subscribe<EffectResolutionFinishedEvent, DefaultEventArgs>(OnEffectResolutionFinished);
         GameplayEventBus.Instance().Subscribe<TurnEndingFinishedEvent, DefaultEventArgs>(OnTurnFinished);
         GameplayEventBus.Instance().Subscribe<ActEndingFinishedEvent, DefaultEventArgs>(OnActEndingFinished);
@@ -261,7 +275,7 @@ public class ActCoordinator : MonoBehaviour
         GameplayEventBus.Instance().Unsubscribe<TurnStartAnimationsFinishedEvent, DefaultEventArgs>(OnTurnStartAnimationsFinished);
         GameplayEventBus.Instance().Unsubscribe<CardPlayAnimationsFinishedEvent, DefaultEventArgs>(OnCardPlayAnimationsFinished);
         GameplayEventBus.Instance().Unsubscribe<DialogueFinishedEvent, DefaultEventArgs>(OnDialogueFinished);
-        GameplayEventBus.Instance().Unsubscribe<ScoreResolutionFinishedEvent, DefaultEventArgs>(OnScoreResolutionFinished);
+        GameplayEventBus.Instance().Unsubscribe<ScoreResolutionFinishedEvent, ScoreArgs>(OnScoreResolutionFinished);
         GameplayEventBus.Instance().Unsubscribe<EffectResolutionFinishedEvent, DefaultEventArgs>(OnEffectResolutionFinished);
         GameplayEventBus.Instance().Unsubscribe<TurnEndingFinishedEvent, DefaultEventArgs>(OnTurnFinished);
         GameplayEventBus.Instance().Unsubscribe<ActEndingFinishedEvent, DefaultEventArgs>(OnActEndingFinished);

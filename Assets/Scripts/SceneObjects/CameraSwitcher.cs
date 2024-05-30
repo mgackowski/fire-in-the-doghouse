@@ -2,101 +2,96 @@ using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
 
+/** 
+ * Responds to GameplayEvents to set the camera in use.
+ */
 public class CameraSwitcher : MonoBehaviour
 {
-    //TODO: Adapt to new event system
-    //public NightManager manager;
-
-
-    public CinemachineVirtualCamera humanPerformer;
-    public CinemachineVirtualCamera cpuPerformer;
-    public CinemachineVirtualCamera stage;
-    public CinemachineVirtualCamera audience;
+    [SerializeField] CinemachineVirtualCamera humanPerformer;
+    [SerializeField] CinemachineVirtualCamera cpuPerformer;
+    [SerializeField] CinemachineVirtualCamera stage;
+    [SerializeField] CinemachineVirtualCamera audience;
 
     List<CinemachineVirtualCamera> cameras;
 
-    private void Awake()
+    public void SwitchTo(CinemachineVirtualCamera camera)
     {
-         cameras = new List<CinemachineVirtualCamera>
-            {
-                humanPerformer, cpuPerformer, stage, audience
-            };
-    }
-
-    private void Start()
-    {
-        //UpdateActBinding();
-    }
-
-    public void UpdateActBinding()
-    {
-        //SubscribeToActEvents();
-    }
-
-    public enum CameraType
-    {
-        HUMAN,
-        CPU,
-        STAGE,
-        AUDIENCE
-    }
-
-    public void SwitchTo(CameraType camera)
-    {
-        CinemachineVirtualCamera targetCamera = null;
-        switch (camera)
-        {
-            case CameraType.HUMAN:
-                targetCamera = humanPerformer;
-                break;
-            case CameraType.CPU:
-                targetCamera = cpuPerformer;
-                break;
-            case CameraType.STAGE:
-                targetCamera = stage;
-                break;
-            case CameraType.AUDIENCE:
-                targetCamera = audience;
-                break;
-        }
         foreach (CinemachineVirtualCamera cam in cameras)
         {
             cam.Priority = 0;
         }
-        targetCamera.Priority = 100;
+        camera.Priority = 100;
     }
 
-    public void OnTurnStarted()
+    private void OnActIntroStarted(GameplayStateArgs args)
     {
-        SwitchTo(CameraType.STAGE);
+        //TODO: Have a nicer little stage overview
+        SwitchTo(stage);
     }
 
-    public void OnScoreResolved(int score)
+    private void OnTurnStartAnimationsStarted(GameplayStateArgs args)
     {
-        SwitchTo(CameraType.AUDIENCE);
+        SwitchTo(stage);
     }
 
-    public void OnCardPlay(CardPlay play) {
-        if (play.player.Type == ComedianType.PLAYER)
-        {
-            SwitchTo(CameraType.HUMAN);
-        }
-        else if (play.player.Type == ComedianType.CPU)
-        {
-            SwitchTo(CameraType.CPU);
-        }
-    }
-
-/*    void SubscribeToActEvents()
+    private void OnCardPlayAnimationsStarted(CardPlayArgs args)
     {
-        if (manager.act == null)
+        if (args.CardPlay.player.Type == ComedianType.CPU)
         {
-            return;
+            SwitchTo(cpuPerformer);
         }
-        manager.act.CardPlayEvent += OnCardPlay;
-        manager.act.TurnStartedEvent += OnTurnStarted;
-        manager.act.ScoreResolutionEvent += OnScoreResolved;
-    }*/
+        else
+        {
+            SwitchTo(humanPerformer);
+        }
+    }
 
+    private void OnEffectResolutionStarted(CardEffectArgs args)
+    {
+        SwitchTo(stage);
+    }
+
+    private void OnScoreResolutionStarted(ScoreArgs args)
+    {
+        SwitchTo(audience);
+    }
+
+    private void OnTurnEndingStarted(DefaultEventArgs args)
+    {
+        SwitchTo(stage);
+    }
+
+    private void OnActEndingStarted(DefaultEventArgs args)
+    {
+        SwitchTo(stage);
+    }
+    private void Awake()
+    {
+        cameras = new List<CinemachineVirtualCamera>
+            {
+                humanPerformer, cpuPerformer, stage, audience
+            };
+
+        GameplayEventBus.Instance().Subscribe<ActIntroStartedEvent, GameplayStateArgs>(OnActIntroStarted);
+        GameplayEventBus.Instance().Subscribe<TurnStartAnimationsStartedEvent, GameplayStateArgs>(OnTurnStartAnimationsStarted);
+        GameplayEventBus.Instance().Subscribe<CardPlayAnimationsStartedEvent, CardPlayArgs>(OnCardPlayAnimationsStarted);
+        GameplayEventBus.Instance().Subscribe<EffectResolutionStartedEvent, CardEffectArgs>(OnEffectResolutionStarted);
+        GameplayEventBus.Instance().Subscribe<ScoreResolutionStartedEvent, ScoreArgs>(OnScoreResolutionStarted);
+        GameplayEventBus.Instance().Subscribe<TurnEndingStartedEvent, DefaultEventArgs>(OnTurnEndingStarted);
+        GameplayEventBus.Instance().Subscribe<ActEndingStartedEvent, DefaultEventArgs>(OnActEndingStarted);
+
+    }
+
+    private void OnDestroy()
+    {
+        GameplayEventBus.Instance().Unsubscribe<ActIntroStartedEvent, GameplayStateArgs>(OnActIntroStarted);
+        GameplayEventBus.Instance().Unsubscribe<TurnStartAnimationsStartedEvent, GameplayStateArgs>(OnTurnStartAnimationsStarted);
+        GameplayEventBus.Instance().Unsubscribe<CardPlayAnimationsStartedEvent, CardPlayArgs>(OnCardPlayAnimationsStarted);
+        GameplayEventBus.Instance().Unsubscribe<EffectResolutionStartedEvent, CardEffectArgs>(OnEffectResolutionStarted);
+        GameplayEventBus.Instance().Unsubscribe<ScoreResolutionStartedEvent, ScoreArgs>(OnScoreResolutionStarted);
+        GameplayEventBus.Instance().Unsubscribe<TurnEndingStartedEvent, DefaultEventArgs>(OnTurnEndingStarted);
+        GameplayEventBus.Instance().Unsubscribe<ActEndingStartedEvent, DefaultEventArgs>(OnActEndingStarted);
+
+    }
 
 }

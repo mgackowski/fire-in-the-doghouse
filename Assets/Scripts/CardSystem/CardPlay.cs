@@ -1,4 +1,4 @@
-﻿public struct CardPlay
+﻿public class CardPlay
 {
     public Comedian player;
     public Card card;

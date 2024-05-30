@@ -3,7 +3,7 @@
 [CreateAssetMenu(menuName = "ScriptableObjects/CardEffect/ComebackCardEffect")]
 public class ComebackCardEffect : CardEffect
 {
-    public new string Name { get; } = "Comeback after Jab";
+    public override string Name { get; } = "Comeback after Jab";
 
     public override void applyEffect(CardPlay invoker, GameplayState context)
     {

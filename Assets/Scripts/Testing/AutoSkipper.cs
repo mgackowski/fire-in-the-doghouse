@@ -50,7 +50,8 @@ public class AutoSkipper : MonoBehaviour
     GameplayStateArgs emptyStateArgs = new GameplayStateArgs() { State = new GameplayState() };
     CardPlayArgs emptyPlay = new CardPlayArgs() { CardPlay = new CardPlay() };
     DialogueArgs emptyDialogue = new DialogueArgs() { DialogueLine = "(Testing only)" };
-    ScoreArgs emptyScore = new ScoreArgs() { NewScore = 0 };
+    ScoreArgs emptyScore = new ScoreArgs() { TurnScore = 0, TurnPlayer = new Comedian("Test", 0) };
+    CardEffectArgs emptyEffect = new CardEffectArgs() { EffectName = "TestEffect", Target = new Comedian("Test", 0) };
 
     IEnumerator InvokeDelayedEvent<T, U>(float delay, U args)
         where T : GameplayEvent<U>, new()
@@ -107,7 +108,7 @@ public class AutoSkipper : MonoBehaviour
     void OnDialogueFinished(IEventArgs args)
     {
         if (dialogueFinishedEvent)
-            StartCoroutine(InvokeDelayedEvent<EffectResolutionStartedEvent, CardPlayArgs>(dialogueFinishedEventWait, emptyPlay));
+            StartCoroutine(InvokeDelayedEvent<EffectResolutionStartedEvent, CardEffectArgs>(dialogueFinishedEventWait, emptyEffect));
     }
 
     void OnEffectResolutionStarted(IEventArgs args)
@@ -125,7 +126,7 @@ public class AutoSkipper : MonoBehaviour
     void OnScoreResolutionStarted(IEventArgs args)
     {
         if (scoreResolutionStartedEvent)
-            StartCoroutine(InvokeDelayedEvent<ScoreResolutionFinishedEvent, DefaultEventArgs>(scoreResolutionStartedEventWait, emptyArgs));
+            StartCoroutine(InvokeDelayedEvent<ScoreResolutionFinishedEvent, ScoreArgs>(scoreResolutionStartedEventWait, emptyScore));
     }
 
     void OnScoreResolutionFinished(IEventArgs args)
@@ -158,7 +159,7 @@ public class AutoSkipper : MonoBehaviour
             StartCoroutine(InvokeDelayedEvent<ActIntroStartedEvent, GameplayStateArgs>(actEndingFinishedEventWait, emptyStateArgs));
     }
 
-    void Start()
+    private void Awake()
     {
         GameplayEventBus.Instance().Subscribe<ActIntroStartedEvent, GameplayStateArgs>(OnActIntroStarted);
         GameplayEventBus.Instance().Subscribe<ActIntroFinishedEvent, GameplayStateArgs>(OnActIntroFinished);
@@ -168,20 +169,23 @@ public class AutoSkipper : MonoBehaviour
         GameplayEventBus.Instance().Subscribe<CardPlayAnimationsFinishedEvent, DefaultEventArgs>(OnCardPlayAnimationsFinished);
         GameplayEventBus.Instance().Subscribe<DialogueStartedEvent, DialogueArgs>(OnDialogueStarted);
         GameplayEventBus.Instance().Subscribe<DialogueFinishedEvent, DefaultEventArgs>(OnDialogueFinished);
-        GameplayEventBus.Instance().Subscribe<EffectResolutionStartedEvent, CardPlayArgs>(OnEffectResolutionStarted);
+        GameplayEventBus.Instance().Subscribe<EffectResolutionStartedEvent, CardEffectArgs>(OnEffectResolutionStarted);
         GameplayEventBus.Instance().Subscribe<EffectResolutionFinishedEvent, DefaultEventArgs>(OnEffectResolutionFinished);
         GameplayEventBus.Instance().Subscribe<ScoreResolutionStartedEvent, ScoreArgs>(OnScoreResolutionStarted);
-        GameplayEventBus.Instance().Subscribe<ScoreResolutionFinishedEvent, DefaultEventArgs>(OnScoreResolutionFinished);
+        GameplayEventBus.Instance().Subscribe<ScoreResolutionFinishedEvent, ScoreArgs>(OnScoreResolutionFinished);
         GameplayEventBus.Instance().Subscribe<TurnEndingStartedEvent, DefaultEventArgs>(OnTurnEndingStarted);
         GameplayEventBus.Instance().Subscribe<TurnEndingFinishedEvent, DefaultEventArgs>(OnTurnEndingFinished);
         GameplayEventBus.Instance().Subscribe<ActEndingStartedEvent, DefaultEventArgs>(OnActEndingStarted);
         GameplayEventBus.Instance().Subscribe<ActEndingFinishedEvent, DefaultEventArgs>(OnActEndingFinished);
 
+    }
+
+    private void Start()
+    {
         if (autoStart)
         {
             GameplayEventBus.Instance().Publish<ActIntroStartedEvent, GameplayStateArgs>(emptyStateArgs);
         }
-
     }
 
     private void OnDestroy()
@@ -194,10 +198,10 @@ public class AutoSkipper : MonoBehaviour
         GameplayEventBus.Instance().Unsubscribe<CardPlayAnimationsFinishedEvent, DefaultEventArgs>(OnCardPlayAnimationsFinished);
         GameplayEventBus.Instance().Unsubscribe<DialogueStartedEvent, DialogueArgs>(OnDialogueStarted);
         GameplayEventBus.Instance().Unsubscribe<DialogueFinishedEvent, DefaultEventArgs>(OnDialogueFinished);
-        GameplayEventBus.Instance().Unsubscribe<EffectResolutionStartedEvent, CardPlayArgs>(OnEffectResolutionStarted);
+        GameplayEventBus.Instance().Unsubscribe<EffectResolutionStartedEvent, CardEffectArgs>(OnEffectResolutionStarted);
         GameplayEventBus.Instance().Unsubscribe<EffectResolutionFinishedEvent, DefaultEventArgs>(OnEffectResolutionFinished);
         GameplayEventBus.Instance().Unsubscribe<ScoreResolutionStartedEvent, ScoreArgs>(OnScoreResolutionStarted);
-        GameplayEventBus.Instance().Unsubscribe<ScoreResolutionFinishedEvent, DefaultEventArgs>(OnScoreResolutionFinished);
+        GameplayEventBus.Instance().Unsubscribe<ScoreResolutionFinishedEvent, ScoreArgs>(OnScoreResolutionFinished);
         GameplayEventBus.Instance().Unsubscribe<TurnEndingStartedEvent, DefaultEventArgs>(OnTurnEndingStarted);
         GameplayEventBus.Instance().Unsubscribe<TurnEndingFinishedEvent, DefaultEventArgs>(OnTurnEndingFinished);
         GameplayEventBus.Instance().Unsubscribe<ActEndingStartedEvent, DefaultEventArgs>(OnActEndingStarted);

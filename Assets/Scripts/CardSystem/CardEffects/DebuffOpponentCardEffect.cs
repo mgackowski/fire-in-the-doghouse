@@ -3,7 +3,7 @@
 [CreateAssetMenu(menuName = "ScriptableObjects/CardEffect/DebuffOpponentCardEffect")]
 public class DebuffOpponentCardEffect : CardEffect
 {
-    public new string Name { get; } = "Jab Opponent";
+    public override string Name { get; } = "Jab Opponent";
 
     public override void applyEffect(CardPlay invoker, GameplayState context)
     {
