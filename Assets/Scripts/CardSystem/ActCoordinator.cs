@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /**
  * Having this component in a Scene will cause events in the Act to resolve in
@@ -30,6 +31,12 @@ public class ActCoordinator : MonoBehaviour
 
     [Header("Scoring")]
     [SerializeField] int setupBonus = 1; // Points awarded for successful Setup.
+
+    [Header("On finish")]
+    [SerializeField] GameObject transitionAfterFinishPrefab;
+    [SerializeField] string cardSelectSceneName;
+    [SerializeField] string gameFinishedSceneName;
+    [SerializeField] int numberOfRounds = 3;
 
     DialogueGenerator dialogueGenerator;
     ActState actState = ActState.ActIntroStarted;
@@ -235,7 +242,18 @@ public class ActCoordinator : MonoBehaviour
     {
         if (actState != ActState.ActEndingStarted) return;
         actState = ActState.ActEndingFinished;
-        // TODO: Change game mode accordingly once implemented
+
+        if (state.ActNumber < numberOfRounds)
+        {
+            Instantiate(transitionAfterFinishPrefab).GetComponent<MainToCardSceneTransition>().SetState(state);
+            state.ActNumber++;
+            SceneManager.LoadScene(cardSelectSceneName);
+        }
+        else
+        {
+            SceneManager.LoadScene(gameFinishedSceneName);
+        }
+        
     }
 
     public void SetNewState(GameplayState newState)

@@ -50,7 +50,7 @@ public class CardSelectCoordinator : MonoBehaviour
         for (int i = 0; i < cardsDealt; i++)
         {
             int selectedIndex = Random.Range(0, state.HumanDeck.Count);
-            cardsToDeal.Add(state.HumanDeck[selectedIndex]);
+            cardsToDeal.Add(state.HumanDeck[selectedIndex]);        //TODO: There's a glitch here
             state.HumanDeck.RemoveAt(selectedIndex);
         }
         cardSelector.SpawnCards(cardsToDeal, cardsToSelect);
