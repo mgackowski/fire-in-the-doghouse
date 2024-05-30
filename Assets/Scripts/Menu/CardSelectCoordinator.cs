@@ -14,6 +14,7 @@ public class CardSelectCoordinator : MonoBehaviour
     [Header("Scene setup")]
     [SerializeField] GameObject nextSceneMessengerPrefab;
     [SerializeField] CardSelector cardSelector;
+    [SerializeField] GameObject fadeOutObject;
 
     GameplayState state;
 
@@ -52,23 +53,50 @@ public class CardSelectCoordinator : MonoBehaviour
             cardsToDeal.Add(state.HumanDeck[selectedIndex]);
             state.HumanDeck.RemoveAt(selectedIndex);
         }
-        cardSelector.SpawnCards(cardsToDeal);
+        cardSelector.SpawnCards(cardsToDeal, cardsToSelect);
 
     }
 
-    private void OnCardSelectFinished(DefaultEventArgs args)
+    private void OnCardSelectFinished(CardSelectArgs args)
     {
-        // Finally, create an object to transfer this information to the next scene:
-        Instantiate(nextSceneMessengerPrefab);
+        // Select cards for opponent (currently random)
 
-        // Other objects in the scene are scripted to perform a scene transition when animations
-        // are finished.
+        for (int i = 0; i < cardsToSelect; i++)
+        {
+            int cpuCardIndex = Random.Range(0, state.CpuDeck.Count);
+            CardPlay cpuPlay = new CardPlay()
+            {
+                card = state.CpuDeck[cpuCardIndex],
+                player = state.CpuComedian
+            };
+            state.CpuDeck.RemoveAt(cpuCardIndex);
+
+            // Also prepare 
+            CardPlay humanPlay = new CardPlay()
+            {
+                card = args.Cards[i],
+                player = state.HumanComedian
+            };
+            state.HumanDeck.Remove(args.Cards[i]);
+
+            // Alternate between player and CPU, starting with player
+            // TODO: Enable control over this:
+            state.CardQueue.Enqueue(humanPlay);
+            state.CardQueue.Enqueue(cpuPlay);
+        }
+
+        // Create an object to transfer gameplay state to the next scene:
+        Instantiate(nextSceneMessengerPrefab).GetComponent<CardToMainSceneTransition>().SetState(state);
+
+        // Enable the fadeout, which will automatically change scenes are finished.
+        fadeOutObject.SetActive(true);
 
     }
 
     private void Awake()
     {
         GameplayEventBus.Instance().Subscribe<CardSelectStartedEvent, GameplayStateArgs>(OnCardSelectStarted);
+        GameplayEventBus.Instance().Subscribe<CardSelectFinishedEvent, CardSelectArgs>(OnCardSelectFinished);
         if (state == null)
         {
             ResetState();
@@ -78,7 +106,7 @@ public class CardSelectCoordinator : MonoBehaviour
     private void OnDestroy()
     {
         GameplayEventBus.Instance().Unsubscribe<CardSelectStartedEvent, GameplayStateArgs>(OnCardSelectStarted);
-
+        GameplayEventBus.Instance().Unsubscribe<CardSelectFinishedEvent, CardSelectArgs>(OnCardSelectFinished);
     }
 
 }

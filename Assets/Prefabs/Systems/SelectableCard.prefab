@@ -119,6 +119,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardImage: {fileID: 1501035947200406473}
+  selectNumberText: {fileID: 9219973463325141817}
 --- !u!1 &5814596025690883718
 GameObject:
   m_ObjectHideFlags: 0

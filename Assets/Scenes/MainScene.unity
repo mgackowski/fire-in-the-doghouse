@@ -2319,7 +2319,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   invokeAnimationFinishedEvent: 1
   objectToShow: {fileID: 1716432894}
-  durationSeconds: 3
+  durationSeconds: 0
   effectNameComponent: {fileID: 320312385}
   effectTargetComponent: {fileID: 172639920}
 --- !u!1 &1185925170
@@ -4288,6 +4288,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: '*TESTING ONLY* StateGenerator'
       objectReference: {fileID: 0}
+    - target: {fileID: 5952946432075894915, guid: 68dc9547004035148907f6341038c162, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5952946432075894916, guid: 68dc9547004035148907f6341038c162, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5952946432075894917, guid: 68dc9547004035148907f6341038c162, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -4417,6 +4425,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7891558586260665990, guid: 2c8884cd7b597e8489d4efae7a94f497, type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7891558586260665991, guid: 2c8884cd7b597e8489d4efae7a94f497, type: 3}
+      propertyPath: actIntroStartedEvent
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7891558586260665991, guid: 2c8884cd7b597e8489d4efae7a94f497, type: 3}
