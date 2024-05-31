@@ -29,14 +29,14 @@ public class AutoSkipper : MonoBehaviour
     [SerializeField] float dialogueStartedEventWait = 2f;
     [SerializeField] bool dialogueFinishedEvent = false;
     [SerializeField] float dialogueFinishedEventWait = 2f;
-    [SerializeField] bool effectResolutionStartedEvent = false;
-    [SerializeField] float effectResolutionStartedEventWait = 2f;
-    [SerializeField] bool effectResolutionFinishedEvent = false;
-    [SerializeField] float effectResolutionFinishedEventWait = 2f;
     [SerializeField] bool scoreResolutionStartedEvent = false;
     [SerializeField] float scoreResolutionStartedEventWait = 2f;
     [SerializeField] bool scoreResolutionFinishedEvent = false;
     [SerializeField] float scoreResolutionFinishedEventWait = 2f;
+    [SerializeField] bool effectResolutionStartedEvent = false;
+    [SerializeField] float effectResolutionStartedEventWait = 2f;
+    [SerializeField] bool effectResolutionFinishedEvent = false;
+    [SerializeField] float effectResolutionFinishedEventWait = 2f;
     [SerializeField] bool turnEndingStartedEvent = false;
     [SerializeField] float turnEndingStartedEventWait = 2f;
     [SerializeField] bool turnEndingFinishedEvent = false;
@@ -108,7 +108,7 @@ public class AutoSkipper : MonoBehaviour
     void OnDialogueFinished(IEventArgs args)
     {
         if (dialogueFinishedEvent)
-            StartCoroutine(InvokeDelayedEvent<EffectResolutionStartedEvent, CardEffectArgs>(dialogueFinishedEventWait, emptyEffect));
+            StartCoroutine(InvokeDelayedEvent<ScoreResolutionStartedEvent, ScoreArgs>(dialogueFinishedEventWait, emptyScore));
     }
 
     void OnEffectResolutionStarted(IEventArgs args)
@@ -120,7 +120,7 @@ public class AutoSkipper : MonoBehaviour
     void OnEffectResolutionFinished(IEventArgs args)
     {
         if (effectResolutionFinishedEvent)
-            StartCoroutine(InvokeDelayedEvent<ScoreResolutionStartedEvent, ScoreArgs>(effectResolutionFinishedEventWait, emptyScore));
+            StartCoroutine(InvokeDelayedEvent<TurnEndingStartedEvent, DefaultEventArgs>(effectResolutionFinishedEventWait, emptyArgs));
     }
 
     void OnScoreResolutionStarted(IEventArgs args)

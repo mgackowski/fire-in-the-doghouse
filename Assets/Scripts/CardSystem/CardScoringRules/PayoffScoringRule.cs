@@ -9,7 +9,8 @@ public class PayoffScoringRule : CardScoringRule
 
     public override int GetBaseScore(CardPlay invoker, GameplayState context)
     {
-        if (!context.SetupActive)
+        // Rules if different comedy styles are in play
+        /*if (!context.SetupActive)
         {
             return scoreForMiss;
         }
@@ -20,7 +21,17 @@ public class PayoffScoringRule : CardScoringRule
         else
         {
             return scoreForNonMatchingStyle;
+        }*/
+
+        // Rules if comedy styles are not a mechanic
+        if (!context.SetupActive || context.SetupPlayer != invoker.player)
+        {
+            return scoreForMiss;
         }
-        
+        else
+        {
+            return scoreForMatchingStyle;
+        }
+
     }
 }

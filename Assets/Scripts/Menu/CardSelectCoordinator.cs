@@ -77,7 +77,6 @@ public class CardSelectCoordinator : MonoBehaviour
                 card = args.Cards[i],
                 player = state.HumanComedian
             };
-            state.HumanDeck.Remove(args.Cards[i]);
 
             // Alternate between player and CPU, starting with player
             // TODO: Enable control over this:

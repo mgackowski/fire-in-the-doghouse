@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /**
  * Having this component in a Scene will cause events in the Act to resolve in
@@ -30,6 +31,12 @@ public class ActCoordinator : MonoBehaviour
 
     [Header("Scoring")]
     [SerializeField] int setupBonus = 1; // Points awarded for successful Setup.
+
+    [Header("On finish")]
+    [SerializeField] GameObject transitionAfterFinishPrefab;
+    [SerializeField] string cardSelectSceneName;
+    [SerializeField] string gameFinishedSceneName;
+    [SerializeField] int numberOfRounds = 3;
 
     DialogueGenerator dialogueGenerator;
     ActState actState = ActState.ActIntroStarted;
@@ -140,7 +147,7 @@ public class ActCoordinator : MonoBehaviour
     {
         if (actState != ActState.DialogueStarted) return;
         actState = ActState.DialogueFinished;
-        StartEffectResolution();
+        StartScoreResolution();
     }
 
     /* Apply additional effects caused by the play, e.g. place penalty on opponent.
@@ -171,7 +178,7 @@ public class ActCoordinator : MonoBehaviour
     {
         if (actState != ActState.EffectResolutionStarted) return;
         actState = ActState.EffectResolutionFinished;
-        StartScoreResolution();
+        StartTurnEnding();
     }
 
     /* Calculate the score of this turn's play, display it, play audience reactions etc.
@@ -197,7 +204,7 @@ public class ActCoordinator : MonoBehaviour
     {
         if (actState != ActState.ScoreResolutionStarted) return;
         actState = ActState.ScoreResolutionFinished;
-        StartTurnEnding();
+        StartEffectResolution();
     }
 
     /* The turn is finishing - the opponent will take over afterwards.
@@ -235,7 +242,18 @@ public class ActCoordinator : MonoBehaviour
     {
         if (actState != ActState.ActEndingStarted) return;
         actState = ActState.ActEndingFinished;
-        // TODO: Change game mode accordingly once implemented
+
+        if (state.ActNumber < numberOfRounds)
+        {
+            Instantiate(transitionAfterFinishPrefab).GetComponent<MainToCardSceneTransition>().SetState(state);
+            state.ActNumber++;
+            SceneManager.LoadScene(cardSelectSceneName);
+        }
+        else
+        {
+            SceneManager.LoadScene(gameFinishedSceneName);
+        }
+        
     }
 
     public void SetNewState(GameplayState newState)
