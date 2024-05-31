@@ -50,7 +50,7 @@ public class CardSelectCoordinator : MonoBehaviour
         for (int i = 0; i < cardsDealt; i++)
         {
             int selectedIndex = Random.Range(0, state.HumanDeck.Count);
-            cardsToDeal.Add(state.HumanDeck[selectedIndex]);        //TODO: There's a glitch here
+            cardsToDeal.Add(state.HumanDeck[selectedIndex]);
             state.HumanDeck.RemoveAt(selectedIndex);
         }
         cardSelector.SpawnCards(cardsToDeal, cardsToSelect);
@@ -77,7 +77,6 @@ public class CardSelectCoordinator : MonoBehaviour
                 card = args.Cards[i],
                 player = state.HumanComedian
             };
-            state.HumanDeck.Remove(args.Cards[i]);
 
             // Alternate between player and CPU, starting with player
             // TODO: Enable control over this:

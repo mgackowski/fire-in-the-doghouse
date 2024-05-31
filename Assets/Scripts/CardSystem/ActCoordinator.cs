@@ -147,7 +147,7 @@ public class ActCoordinator : MonoBehaviour
     {
         if (actState != ActState.DialogueStarted) return;
         actState = ActState.DialogueFinished;
-        StartEffectResolution();
+        StartScoreResolution();
     }
 
     /* Apply additional effects caused by the play, e.g. place penalty on opponent.
@@ -178,7 +178,7 @@ public class ActCoordinator : MonoBehaviour
     {
         if (actState != ActState.EffectResolutionStarted) return;
         actState = ActState.EffectResolutionFinished;
-        StartScoreResolution();
+        StartTurnEnding();
     }
 
     /* Calculate the score of this turn's play, display it, play audience reactions etc.
@@ -204,7 +204,7 @@ public class ActCoordinator : MonoBehaviour
     {
         if (actState != ActState.ScoreResolutionStarted) return;
         actState = ActState.ScoreResolutionFinished;
-        StartTurnEnding();
+        StartEffectResolution();
     }
 
     /* The turn is finishing - the opponent will take over afterwards.

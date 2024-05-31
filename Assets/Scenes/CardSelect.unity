@@ -1070,5 +1070,9 @@ PrefabInstance:
       propertyPath: fadeOutObject
       value: 
       objectReference: {fileID: 622750756}
+    - target: {fileID: 9156117315122534167, guid: 2c2bdd33c415a0244aca770cb3b8a9c9, type: 3}
+      propertyPath: fullPlayerDeck
+      value: 
+      objectReference: {fileID: 11400000, guid: f41892d1b47f515478c5f98496ef0766, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c2bdd33c415a0244aca770cb3b8a9c9, type: 3}
